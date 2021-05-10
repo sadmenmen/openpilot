@@ -8,6 +8,7 @@
 #include "cereal/gen/cpp/log.capnp.h"
 #include "selfdrive/hardware/hw.h"
 #include "selfdrive/ui/ui.h"
+#include "selfdrive/ui/qt/widgets/map.h"
 
 typedef cereal::CarControl::HUDControl::AudibleAlert AudibleAlert;
 
@@ -85,6 +86,7 @@ public:
 private:
   OnroadAlerts *alerts;
   NvgWindow *nvg;
+  MapWindow *map;
   QStackedLayout *layout;
 
 signals:
