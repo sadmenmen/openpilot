@@ -107,26 +107,14 @@ void test()
     fclose(file);
 }
 
-void Civc()
+void PQ_CAR()
 {
     FILE *file = fopen("car_model_test.txt", "w");
     if(file == NULL)
     {
         printf("open error!\n");
     }
-    char name[] = "HONDA CIVIC 2016 TOURING";
-    fputs(name, file);
-    fclose(file);
-}
-
-void AVALON_2019_TOYOTA()
-{
-    FILE *file = fopen("car_model_test.txt", "w");
-    if(file == NULL)
-    {
-        printf("open error!\n");
-    }
-    char name[] = "TOYOTA AVALON 2019";
+    char name[] = "Generic Volkswagen PQ35/PQ46/NMS Platform Vehicle";
     fputs(name, file);
     fclose(file);
 }
@@ -185,18 +173,15 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QAction *pAct1 = new QAction("HONDA ACCORD 2018 LX 1.5T", this);
   QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
   QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
-  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
-  QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
+  QAction *pAct4 = new QAction("Generic Volkswagen PQ35/PQ46/NMS Platform Vehicle", this);
   connect(pAct1, &QAction::triggered, this, &addFunc);
   connect(pAct2, &QAction::triggered, this, &delFunc);
   connect(pAct3, &QAction::triggered, this, &test);
-  connect(pAct4, &QAction::triggered, this, &Civc);
-  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
+  connect(pAct4, &QAction::triggered, this, &PQ_CAR);
   mymenu->addAction(pAct1);
   mymenu->addAction(pAct2);
   mymenu->addAction(pAct3);
   mymenu->addAction(pAct4);
-  mymenu->addAction(pAct5);
   mybtn->setMenu(mymenu);
   car_Layout->addWidget(mybtn);
   device_layout->addLayout(car_Layout);

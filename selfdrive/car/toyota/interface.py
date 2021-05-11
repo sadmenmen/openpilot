@@ -176,18 +176,8 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.18], [0.015]]  # community tuning
       ret.lateralTuning.pid.kf = 0.00012  # community tuning
 
-    elif candidate in [CAR.AVALON]:
+    elif candidate == CAR.AVALON:
       stop_and_go = False
-      ret.safetyParam = 73
-      ret.wheelbase = 2.82
-      ret.steerRatio = 14.8  # Found at https://pressroom.toyota.com/releases/2016+avalon+product+specs.download
-      tire_stiffness_factor = 0.7983
-      ret.mass = 3505. * CV.LB_TO_KG + STD_CARGO_KG  # mean between normal and hybrid
-      ret.lateralTuning.pid.kpV, ret.lateralTuning.pid.kiV = [[0.17], [0.03]]
-      ret.lateralTuning.pid.kf = 0.00006
-      
-    elif candidate in [CAR.AVALON_2019]:
-      stop_and_go = True
       ret.safetyParam = 73
       ret.wheelbase = 2.82
       ret.steerRatio = 14.8  # Found at https://pressroom.toyota.com/releases/2016+avalon+product+specs.download
