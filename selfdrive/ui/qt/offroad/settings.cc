@@ -190,8 +190,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   connect(pAct1, &QAction::triggered, this, &addFunc);
   connect(pAct2, &QAction::triggered, this, &delFunc);
   connect(pAct3, &QAction::triggered, this, &test);
-  connect(pAct4, &QAction::triggered, this, &test);
-  connect(pAct5, &QAction::triggered, this, &test);
+  connect(pAct4, &QAction::triggered, this, &Civc);
+  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
   mymenu->addAction(pAct1);
   mymenu->addAction(pAct2);
   mymenu->addAction(pAct3);
