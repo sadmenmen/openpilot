@@ -92,6 +92,9 @@ class CarController():
         self.lead_distance_counter = 1
         self.lead_distance_counter_prev = 1
         self.rough_lead_speed = 0.0
+        # dp
+        self.last_blinker_on = False
+        self.blinker_end_frame = 0.
 
     def rough_speed(self, lead_distance):
         if self.prev_lead_distance != lead_distance:
@@ -152,7 +155,13 @@ class CarController():
 
         # Send CAN commands.
         can_sends = []
-
+        # dp
+        blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
+        if self.last_blinker_on and not blinker_on:
+            self.blinker_end_frame = frame
+        if blinker_on:
+            apply_steer = 0 if isinstance(apply_steer, int) else False
+        self.last_blinker_on = blinker_on
         # Send steering command.
         idx = frame % 4
         can_sends.append(hondacan.create_steering_control(self.packer, apply_steer,

@@ -34,6 +34,9 @@ class CarController():
     self.standstill_req = False
 
     self.steer_rate_limited = False
+    # dp
+    self.last_blinker_on = False
+    self.blinker_end_frame = 0.
 
     self.fake_ecus = set()
     if CP.enableCamera:
@@ -84,7 +87,13 @@ class CarController():
     if CS.pcm_acc_status != 8:
       # pcm entered standstill or it's disabled
       self.standstill_req = False
-
+    # dp
+    blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
+    if self.last_blinker_on and not blinker_on:
+      self.blinker_end_frame = frame
+    if blinker_on:
+      apply_steer = 0 if isinstance(apply_steer, int) else False
+    self.last_blinker_on = blinker_on
     self.last_steer = apply_steer
     self.last_accel = apply_accel
     self.last_standstill = CS.out.standstill
