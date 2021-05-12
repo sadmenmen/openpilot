@@ -95,6 +95,65 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
 
   setLayout(toggles_list);
 }
+void ACCORD_2018_15T()
+{
+	FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "HONDA ACCORD 2018 LX 1.5T";
+    fputs(name, file);
+    fclose(file);
+}
+
+void VOLKSWAGEN_7TH()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "VOLKSWAGEN GOLF 7TH GEN";
+    fputs(name, file);
+    fclose(file);
+}
+
+void CAMRY_2018_HYBRID()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA CAMRY HYBRID 2018";
+    fputs(name, file);
+    fclose(file);
+}
+
+void Civc_2016_TOURING()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "HONDA CIVIC 2016 TOURING";
+    fputs(name, file);
+    fclose(file);
+}
+
+void AVALON_2019_TOYOTA()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA AVALON 2019";
+    fputs(name, file);
+    fclose(file);
+}
 
 DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QVBoxLayout *device_layout = new QVBoxLayout;
@@ -167,7 +226,28 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     QObject::connect(parent, SIGNAL(offroadTransition(bool)), btn, SLOT(setEnabled(bool)));
     device_layout->addWidget(btn);
   }
-
+  //choose car
+  QHBoxLayout *car_Layout=new QHBoxLayout();
+  QPushButton *mybtn=new QPushButton("车型选择");
+  QMenu *mymenu=new QMenu;
+  QAction *pAct1 = new QAction("HONDA ACCORD 2018 LX 1.5T", this);
+  QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
+  QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
+  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
+  QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
+  connect(pAct1, &QAction::triggered, this, &ACCORD_2018_15T);
+  connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_7TH);
+  connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
+  connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
+  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
+  mymenu->addAction(pAct1);
+  mymenu->addAction(pAct2);
+  mymenu->addAction(pAct3);
+  mymenu->addAction(pAct4);
+  mymenu->addAction(pAct5);
+  mybtn->setMenu(mymenu);
+  car_Layout->addWidget(mybtn);
+  device_layout->addLayout(car_Layout);
   // power buttons
   QHBoxLayout *power_layout = new QHBoxLayout();
   power_layout->setSpacing(30);

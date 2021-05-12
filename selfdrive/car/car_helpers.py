@@ -84,7 +84,13 @@ def only_toyota_left(candidate_cars):
 
 # **** for use live only ****
 def fingerprint(logcan, sendcan):
-  fixed_fingerprint = os.environ.get('FINGERPRINT', "")
+  car_path = BASEDIR + '/selfdrive/ui/' + 'car_model_test.txt'
+  if os.path.exists(car_path):
+    with open(car_path, 'r') as f:
+      car_content = f.read()
+    fixed_fingerprint = car_content
+  else:
+    fixed_fingerprint = os.environ.get('FINGERPRINT', "")
   skip_fw_query = os.environ.get('SKIP_FW_QUERY', False)
 
   if not fixed_fingerprint and not skip_fw_query:
