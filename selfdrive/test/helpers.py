@@ -12,6 +12,7 @@ def set_params_enabled():
   params = Params()
   params.put("HasAcceptedTerms", terms_version)
   params.put("CompletedTrainingVersion", training_version)
+  # params.put_bool("GasPressNoquit", False)
   params.put_bool("OpenpilotEnabledToggle", True)
   params.put_bool("CommunityFeaturesToggle", True)
   params.put_bool("Passive", False)

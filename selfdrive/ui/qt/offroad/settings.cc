@@ -34,6 +34,16 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
                                   "../assets/offroad/icon_warning.png",
                                   this));
+  toggles.append(new ParamControl("GasPressNoquit",
+                                  "踩油门不退出OP",
+                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "../assets/offroad/icon_gas.png",
+                                  this));
+  toggles.append(new ParamControl("Driverlook",
+                                  "关闭驾驶员监控提醒",
+                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "../assets/offroad/icon_driver.png",
+                                  this));
   toggles.append(new ParamControl("IsRHD",
                                   "启用右驾模式",
                                   "Allow openpilot to obey left-hand traffic conventions and perform driver monitoring on right driver seat.",

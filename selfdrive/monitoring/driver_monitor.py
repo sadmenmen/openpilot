@@ -5,7 +5,7 @@ from common.numpy_fast import interp
 from common.realtime import DT_DMON
 from common.filter_simple import FirstOrderFilter
 from common.stat_live import RunningStatFilter
-
+from common.params import Params
 EventName = car.CarEvent.EventName
 
 # ******************************************************************************************
@@ -56,7 +56,8 @@ MAX_TERMINAL_DURATION = 300  # 30s
 # model output refers to center of cropped image, so need to apply the x displacement offset
 RESIZED_FOCAL = 320.0
 H, W, FULL_W = 320, 160, 426
-
+params = Params()
+driverlook_info = params.get_bool('Driverlook')
 class DistractedType:
   NOT_DISTRACTED = 0
   BAD_POSE = 1
@@ -248,19 +249,20 @@ class DriverStatus():
       self.awareness = max(self.awareness - self.step_change, -0.1)
 
     alert = None
-    if self.awareness <= 0.:
-      # terminal red alert: disengagement required
-      alert = EventName.driverDistracted if self.active_monitoring_mode else EventName.driverUnresponsive
-      self.hi_std_alert_enabled = True
-      self.terminal_time += 1
-      if awareness_prev > 0.:
-        self.terminal_alert_cnt += 1
-    elif self.awareness <= self.threshold_prompt:
-      # prompt orange alert
-      alert = EventName.promptDriverDistracted if self.active_monitoring_mode else EventName.promptDriverUnresponsive
-    elif self.awareness <= self.threshold_pre:
-      # pre green alert
-      alert = EventName.preDriverDistracted if self.active_monitoring_mode else EventName.preDriverUnresponsive
+    if not driverlook_info:
+      if self.awareness <= 0.:
+        # terminal red alert: disengagement required
+        alert = EventName.driverDistracted if self.active_monitoring_mode else EventName.driverUnresponsive
+        self.hi_std_alert_enabled = True
+        self.terminal_time += 1
+        if awareness_prev > 0.:
+          self.terminal_alert_cnt += 1
+      elif self.awareness <= self.threshold_prompt:
+        # prompt orange alert
+        alert = EventName.promptDriverDistracted if self.active_monitoring_mode else EventName.promptDriverUnresponsive
+      elif self.awareness <= self.threshold_pre:
+        # pre green alert
+        alert = EventName.preDriverDistracted if self.active_monitoring_mode else EventName.preDriverUnresponsive
 
     if alert is not None:
       events.add(alert)

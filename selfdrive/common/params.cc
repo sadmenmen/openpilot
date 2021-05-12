@@ -163,6 +163,8 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"DongleId", PERSISTENT},
     {"GitDiff", PERSISTENT},
     {"GitBranch", PERSISTENT},
+    {"GasPressNoquit", PERSISTENT},
+    {"Driverlook", PERSISTENT},
     {"GitCommit", PERSISTENT},
     {"GitRemote", PERSISTENT},
     {"GithubSshKeys", PERSISTENT},
