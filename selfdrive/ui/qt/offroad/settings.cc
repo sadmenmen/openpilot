@@ -112,7 +112,7 @@ void ACCORD_2018_15T()
     {
         printf("open error!\n");
     }
-    char name[] = "HONDA ACCORD 2018 LX 1.5T";
+    char name[] = "HONDA ACCORD 1.5T 2018";
     fputs(name, file);
     fclose(file);
 }
