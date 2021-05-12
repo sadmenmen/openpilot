@@ -336,12 +336,28 @@ FW_VERSIONS = {
     ],
   },
   CAR.AVALON_2019: {
-    (Ecu.esp, 0x7b0, None): [],
-    (Ecu.dsu, 0x791, None): [],
-    (Ecu.eps, 0x7a1, None): [],
-    (Ecu.engine, 0x7e0, None): [],
-    (Ecu.fwdRadar, 0x750, 0xf): [],
-    (Ecu.fwdCamera, 0x750, 0x6d): [],
+    (Ecu.esp, 0x7b0, None): [
+      b'F152607110\x00\x00\x00\x00\x00\x00',
+      b'F152607180\x00\x00\x00\x00\x00\x00',
+    ],
+    (Ecu.dsu, 0x791, None): [
+      b'881514106100\x00\x00\x00\x00',
+      b'881510703200\x00\x00\x00\x00',
+    ],
+    (Ecu.eps, 0x7a1, None): [
+      b'8965B41070\x00\x00\x00\x00\x00\x00',
+      b'8965B41090\x00\x00\x00\x00\x00\x00',
+    ],
+    (Ecu.engine, 0x700, None): [
+      b'\x01896630738000\x00\x00\x00\x00',
+      b'\x01896630731000\x00\x00\x00\x00',
+    ],
+    (Ecu.fwdRadar, 0x750, 0xf): [
+      b'8821F4702300\x00\x00\x00\x00',
+    ],
+    (Ecu.fwdCamera, 0x750, 0x6d): [
+      b'8646F0702100\x00\x00\x00\x00',
+    ],
   },
   CAR.CAMRY: {
     (Ecu.engine, 0x700, None): [
