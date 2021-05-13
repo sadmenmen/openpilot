@@ -273,7 +273,7 @@ void GLWindow::backlightUpdate() {
 
   smooth_brightness = clipped_brightness * k + smooth_brightness * (1.0f - k);
 
-  int brightness = smooth_brightness;
+  int brightness = 10;
   if (!ui_state.awake) {
     brightness = 0;
     emit screen_shutoff();
@@ -282,7 +282,7 @@ void GLWindow::backlightUpdate() {
   if (brightness != last_brightness) {
     std::thread{Hardware::set_brightness, brightness}.detach();
   }
-  last_brightness = brightness;
+  last_brightness = 10;
 }
 
 void GLWindow::timerUpdate() {
