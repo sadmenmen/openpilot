@@ -235,7 +235,7 @@ GLWindow::GLWindow(QWidget* parent) : QOpenGLWidget(parent) {
     brightness_b = 10.0;
     brightness_m = 0.1;
   }
-  smooth_brightness = 10;
+  smooth_brightness = BACKLIGHT_OFFROAD;
 }
 
 GLWindow::~GLWindow() {
