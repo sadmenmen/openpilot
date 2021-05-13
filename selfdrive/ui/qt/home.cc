@@ -24,7 +24,7 @@
 
 #define BACKLIGHT_DT 0.25
 #define BACKLIGHT_TS 2.00
-#define BACKLIGHT_OFFROAD 50
+#define BACKLIGHT_OFFROAD 10
 
 // HomeWindow: the container for the offroad (OffroadHome) and onroad (GLWindow) UIs
 
