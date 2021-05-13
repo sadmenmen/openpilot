@@ -235,7 +235,7 @@ GLWindow::GLWindow(QWidget* parent) : QOpenGLWidget(parent) {
     brightness_b = 10.0;
     brightness_m = 0.1;
   }
-  smooth_brightness = BACKLIGHT_OFFROAD;
+  smooth_brightness = 10;
 }
 
 GLWindow::~GLWindow() {
@@ -273,7 +273,7 @@ void GLWindow::backlightUpdate() {
 
   smooth_brightness = clipped_brightness * k + smooth_brightness * (1.0f - k);
 
-  int brightness = 10;
+  int brightness = smooth_brightness;
   if (!ui_state.awake) {
     brightness = 0;
     emit screen_shutoff();
@@ -282,7 +282,7 @@ void GLWindow::backlightUpdate() {
   if (brightness != last_brightness) {
     std::thread{Hardware::set_brightness, brightness}.detach();
   }
-  last_brightness = 10;
+  last_brightness = brightness;
 }
 
 void GLWindow::timerUpdate() {
