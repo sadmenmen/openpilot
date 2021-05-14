@@ -6,7 +6,9 @@ from selfdrive.car.toyota.toyotacan import create_steer_command, create_ui_comma
                                            create_fcw_command, create_lta_steer_command
 from selfdrive.car.toyota.values import Ecu, CAR, STATIC_MSGS, NO_STOP_TIMER_CAR, TSS2_CAR, CarControllerParams
 from opendbc.can.packer import CANPacker
-
+from common.params import Params
+params = Params()
+Turn_Lamp_info = params.get_bool('Turn_Lamp')
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 
 
@@ -88,12 +90,13 @@ class CarController():
       # pcm entered standstill or it's disabled
       self.standstill_req = False
     # dp
-    blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
-    if self.last_blinker_on and not blinker_on:
-      self.blinker_end_frame = frame
-    if blinker_on:
-      apply_steer = 0 if isinstance(apply_steer, int) else False
-    self.last_blinker_on = blinker_on
+    if Turn_Lamp_info:
+      blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
+      if self.last_blinker_on and not blinker_on:
+        self.blinker_end_frame = frame
+      if blinker_on:
+        apply_steer = 0 if isinstance(apply_steer, int) else False
+      self.last_blinker_on = blinker_on
     self.last_steer = apply_steer
     self.last_accel = apply_accel
     self.last_standstill = CS.out.standstill
