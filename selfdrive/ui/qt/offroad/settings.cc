@@ -273,17 +273,15 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
   QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
   QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
-  QAction *pAct6 = new QAction("HONDA HRV 2019", this);
   QAction *pAct6 = new QAction("HONDA ACCORD HYBRID 2018", this);
-  QAction *pAct6 = new QAction("HONDA_CRV_2019_HYBRID", this);
+  QAction *pAct7 = new QAction("HONDA_CRV_2019_HYBRID", this);
   connect(pAct1, &QAction::triggered, this, &ACCORD_2018_15T);
   connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
   connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
   connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
   connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
-  connect(pAct6, &QAction::triggered, this, &JIEDE_OR_HRV);
   connect(pAct6, &QAction::triggered, this, &ACCORD_2018_HYBRID);
-  connect(pAct6, &QAction::triggered, this, &HONDA_CRV_2019_HYBRID);
+  connect(pAct7, &QAction::triggered, this, &HONDA_CRV_2019_HYBRID);
   mymenu->addAction(pAct1);
   mymenu->addAction(pAct2);
   mymenu->addAction(pAct3);
@@ -291,7 +289,6 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   mymenu->addAction(pAct5);
   mymenu->addAction(pAct6);
   mymenu->addAction(pAct7);
-  mymenu->addAction(pAct8);
   mybtn->setMenu(mymenu);
   car_Layout->addWidget(mybtn);
   device_layout->addLayout(car_Layout);
