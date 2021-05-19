@@ -31,57 +31,57 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   this));
   toggles.append(new ParamControl("IsLdwEnabled",
                                   "启用车道偏离警告",
-                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "当时速超过50km每小时，车辆压线就会发出报警提示",
                                   "../assets/offroad/icon_warning.png",
                                   this));
   toggles.append(new ParamControl("GasPressNoquit",
                                   "踩油门不退出OP",
-                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "踩油门op也能继续控制转向",
                                   "../assets/offroad/icon_gas.png",
                                   this));
   toggles.append(new ParamControl("Driverlook",
                                   "关闭驾驶员监控提醒",
-                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "请专心驾驶！！！",
                                   "../assets/offroad/icon_driver.png",
                                   this));
   toggles.append(new ParamControl("Turn_Lamp",
                                   "打转向灯取消控制",
-                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "打转向灯之后暂时取消op对方向盘的控制，但是这样就不能自动变道啦！",
                                   "../assets/offroad/icon_Turn_Lamp.png",
                                   this));
   toggles.append(new ParamControl("IsRHD",
                                   "启用右驾模式",
-                                  "Allow openpilot to obey left-hand traffic conventions and perform driver monitoring on right driver seat.",
+                                  "我们都在左驾",
                                   "../assets/offroad/icon_openpilot_mirrored.png",
                                   this));
   toggles.append(new ParamControl("IsMetric",
                                   "公制单位",
-                                  "Display speed in km/h instead of mp/h.",
+                                  "显示速度用km/h",
                                   "../assets/offroad/icon_metric.png",
                                   this));
   toggles.append(new ParamControl("CommunityFeaturesToggle",
-                                  "启用社区功能",
-                                  "Use features from the open source community that are not maintained or supported by comma.ai and have not been confirmed to meet the standard safety model. These features include community supported cars and community supported hardware. Be extra cautious when using these features",
+                                  "打开社区功能",
+                                  "好像没多大用，建议开开",
                                   "../assets/offroad/icon_shell.png",
                                   this));
 
   if (!Hardware::TICI()) {
     toggles.append(new ParamControl("IsUploadRawEnabled",
-                                    "Upload Raw Logs",
-                                    "Upload full logs and full resolution video by default while on WiFi. If not enabled, individual logs can be marked for upload at my.comma.ai/useradmin.",
+                                    "上传 Raw Logs",
+                                    "暂时不知道有什么用，但需要联网才能上传",
                                     "../assets/offroad/icon_network.png",
                                     this));
   }
 
   ParamControl *record_toggle = new ParamControl("RecordFront",
                                                  "行车记录",
-                                                "Upload data from the driver facing camera and help improve the driver monitoring algorithm.",
+                                                "记录你的驾驶行为，通过前置摄像头",
                                                 "../assets/offroad/icon_monitoring.png",
                                                 this);
   toggles.append(record_toggle);
   toggles.append(new ParamControl("EndToEndToggle",
-                                   "\U0001f96c 禁用车道线 (Alpha) \U0001f96c",
-                                   "In this mode openpilot will ignore lanelines and just drive how it thinks a human would.",
+                                   "\U0001f96c 忽略车道线 (Alpha) \U0001f96c",
+                                   "用这个模式，op就不再完全依赖车道线了",
                                    "../assets/offroad/icon_road.png",
                                    this));
 
