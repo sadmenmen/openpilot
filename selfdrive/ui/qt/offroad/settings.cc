@@ -337,11 +337,11 @@ void DeveloperPanel::showEvent(QShowEvent *event) {
   Params params = Params();
   std::string brand = params.getBool("Passive") ? "dashcam" : "openpilot";
   QList<QPair<QString, std::string>> dev_params = {
-    {"Version", brand + " v" + params.get("Version", false).substr(0, 14)},
-    {"Git Branch", params.get("GitBranch", false)},
+    {"版本", brand + " v" + params.get("Version", false).substr(0, 14)},
+    {"Git分支", params.get("GitBranch", false)},
     {"Git Commit", params.get("GitCommit", false).substr(0, 10)},
-    {"Panda Firmware", params.get("PandaFirmwareHex", false)},
-    {"OS Version", Hardware::get_os_version()},
+    {"Panda固件", params.get("PandaFirmwareHex", false)},
+    {"系统版本", Hardware::get_os_version()},
   };
 
   for (int i = 0; i < dev_params.size(); i++) {
