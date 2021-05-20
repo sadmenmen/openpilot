@@ -77,7 +77,7 @@ void Sidebar::update(const UIState &s) {
   panda_status = good_color;
   if (s.scene.pandaType == cereal::PandaState::PandaType::UNKNOWN) {
     panda_status = danger_color;
-    panda_str = "没连上\nPANDA";
+    panda_str = "没连上\n小盒子";
   } else if (Hardware::TICI() && s.scene.started) {
     panda_str = QString("SAT CNT\n%1").arg(s.scene.satelliteCount);
     panda_status = s.scene.gpsOK ? good_color : warning_color;
