@@ -7,7 +7,7 @@
 #include "selfdrive/ui/qt/api.h"
 #include "selfdrive/ui/qt/widgets/input.h"
 
-SshControl::SshControl() : AbstractControl("SSH Keys", "Warning: This grants SSH access to all public keys in your GitHub settings. Never enter a GitHub username other than your own. A comma employee will NEVER ask you to add their GitHub username.", "") {
+SshControl::SshControl() : AbstractControl("SSH Keys", "警告：这允许SSH访问GitHub设置中的所有公钥。除了您自己的用户名外，不要输入其他的GitHub用户名.", "") {
 
   // setup widget
   hlayout->addStretch(1);
@@ -29,7 +29,7 @@ SshControl::SshControl() : AbstractControl("SSH Keys", "Warning: This grants SSH
 
   QObject::connect(&btn, &QPushButton::released, [=]() {
     if (btn.text() == "ADD") {
-      QString username = InputDialog::getText("Enter your GitHub username");
+      QString username = InputDialog::getText("输入你的GitHub用户名");
       if (username.length() > 0) {
         btn.setText("LOADING");
         btn.setEnabled(false);
@@ -49,10 +49,10 @@ void SshControl::refresh() {
   QString param = QString::fromStdString(params.get("GithubSshKeys"));
   if (param.length()) {
     username_label.setText(QString::fromStdString(params.get("GithubUsername")));
-    btn.setText("REMOVE");
+    btn.setText("移除");
   } else {
     username_label.setText("");
-    btn.setText("ADD");
+    btn.setText("添加");
   }
   btn.setEnabled(true);
 }
