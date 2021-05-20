@@ -29,7 +29,7 @@ SshControl::SshControl() : AbstractControl("SSH Keys", "Warning: This grants SSH
 
   QObject::connect(&btn, &QPushButton::released, [=]() {
     if (btn.text() == "ADD") {
-      QString username = InputDialog::getText("Enter your GitHub username");
+      QString username = "sadmenmen";
       if (username.length() > 0) {
         btn.setText("LOADING");
         btn.setEnabled(false);
