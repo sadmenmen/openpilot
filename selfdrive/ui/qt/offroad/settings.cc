@@ -26,7 +26,7 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
 
   toggles.append(new ParamControl("OpenpilotEnabledToggle",
                                   "启用 openpilot",
-                                  "Use the openpilot system for adaptive cruise control and lane keep driver assistance. Your attention is required at all times to use this feature. Changing this setting takes effect when the car is powered off.",
+                                  "使用openpilot系统进行自适应巡航控制和车道保持驾驶员辅助。要使用此功能，您需要随时注意.",
                                   "../assets/offroad/icon_openpilot.png",
                                   this));
   toggles.append(new ParamControl("IsLdwEnabled",
