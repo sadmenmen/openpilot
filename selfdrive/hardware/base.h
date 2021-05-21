@@ -16,7 +16,7 @@ public:
   static void set_brightness(int percent) {}
   static void set_display_power(bool on) {}
 
-  static bool get_ssh_enabled(bool enabled) {}
+  static bool get_ssh_enabled() {bool enabled; }
   static void set_ssh_enabled(bool enabled) {}
 
   static bool PC() { return false; }
