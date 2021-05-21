@@ -83,7 +83,7 @@ def manager_init():
   try:
     os.environ['DONGLE_ID'] = '264bd2e082e23204'  # Needed for swaglog
   except:
-    raise Exception(f"Registration failed for device sadmenmen")
+    pass
 
   if not dirty:
     os.environ['CLEAN'] = '1'
