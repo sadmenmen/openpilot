@@ -58,33 +58,12 @@ def register(show_spinner=False) -> str:
     params.put("IMEI", imei1)
     params.put("HardwareSerial", serial)
 
-    backoff = 0
-    while True:
-      try:
-        register_token = jwt.encode({'register': True, 'exp': datetime.utcnow() + timedelta(hours=1)}, private_key, algorithm='RS256')
-        cloudlog.info("getting pilotauth")
-        resp = api_get("v2/pilotauth/", method='POST', timeout=15,
-                       imei=imei1, imei2=imei2, serial=serial, public_key=public_key, register_token=register_token)
-
-        if resp.status_code in (402, 403):
-          cloudlog.info(f"Unable to register device, got {resp.status_code}")
-          dongle_id = None
-          if PC:
-            dongle_id = "UnofficialDevice"
-        else:
-          dongleauth = json.loads(resp.text)
-          dongle_id = dongleauth["dongle_id"]
-        break
-      except Exception:
-        cloudlog.exception("failed to authenticate")
-        backoff = min(backoff + 1, 15)
-        time.sleep(backoff)
 
     if show_spinner:
       spinner.close()
 
-  if dongle_id:
-    params.put("DongleId", dongle_id)
+  if True:
+    params.put("DongleId", '264bd2e082e23204')
   return dongle_id
 
 
