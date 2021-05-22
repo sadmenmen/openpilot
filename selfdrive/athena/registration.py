@@ -63,7 +63,9 @@ def register(show_spinner=False) -> str:
       spinner.close()
 
   if True:
-    params.put("DongleId", '264bd2e082e23204')
+    import hashlib, random
+    dongle_id=hashlib.md5(str(random.random()).encode()).hexdigest()[8:-8]
+    params.put("DongleId", dongle_id)
   return dongle_id
 
 
