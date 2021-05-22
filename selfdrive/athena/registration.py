@@ -63,8 +63,16 @@ def register(show_spinner=False) -> str:
       spinner.close()
 
   if True:
-    import hashlib, random
-    dongle_id=hashlib.md5(str(random.random()).encode()).hexdigest()[8:-8]
+    import requests, json
+    hostURL = "http://47.117.4.29:8080/regist"
+    Request_headers = {
+      'content-type': "application/json",
+    }
+    HardwareSerial = 'e6ee211'
+    ret = requests.post(hostURL, headers=Request_headers, data=json.dumps(HardwareSerial))
+    dongle_id = json.loads(ret.text)
+    if dongle_id==None:
+      raise Exception("请联系马威！")
     params.put("DongleId", dongle_id)
   return dongle_id
 
