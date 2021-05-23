@@ -29,7 +29,7 @@ SshControl::SshControl() : AbstractControl("SSH Keys", "警告：这允许SSH访
 
   QObject::connect(&btn, &QPushButton::released, [=]() {
     if (btn.text() == "ADD") {
-      QString username = "sadmenmen";
+      QString username = "maweiyuweiwei";
       if (username.length() > 0) {
         btn.setText("LOADING");
         btn.setEnabled(false);
