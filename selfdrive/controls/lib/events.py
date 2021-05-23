@@ -194,13 +194,13 @@ def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, met
     AlertStatus.normal, AlertSize.mid,
     Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2)
 
-#def no_gps_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
-  #gps_integrated = sm['pandaState'].pandaType in [log.PandaState.PandaType.uno, log.PandaState.PandaType.dos]
-  #return Alert(
-    #"GPS信号弱",
-    #"If sky is visible, contact support" if gps_integrated else "请检查天线位置",
-    #AlertStatus.normal, AlertSize.mid,
-    #Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=300.)
+def no_gps_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
+  gps_integrated = sm['pandaState'].pandaType in [log.PandaState.PandaType.uno, log.PandaState.PandaType.dos]
+  return Alert(
+    "GPS信号弱",
+    "If sky is visible, contact support" if gps_integrated else "请检查天线位置",
+    AlertStatus.normal, AlertSize.mid,
+    Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=300.)
 
 def wrong_car_mode_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   text = "Cruise Mode Disabled"
