@@ -192,6 +192,30 @@ void HONDA_CRV_2019_HYBRID()
     fclose(file);
 }
 
+void AUDI_A3_MK3()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "AUDI A3 3RD GEN";
+    fputs(name, file);
+    fclose(file);
+}
+
+void COROLLAH_TSS2()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA COROLLA HYBRID TSS2 2019";
+    fputs(name, file);
+    fclose(file);
+}
+
 DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QVBoxLayout *device_layout = new QVBoxLayout;
 
@@ -269,26 +293,32 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QPushButton *mybtn=new QPushButton("车型选择");
   QMenu *mymenu=new QMenu;
   QAction *pAct1 = new QAction("HONDA ACCORD 2018 LX 1.5T", this);
-  QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
-  QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
-  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
-  QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
-  QAction *pAct6 = new QAction("HONDA ACCORD HYBRID 2018", this);
-  QAction *pAct7 = new QAction("HONDA_CRV_2019_HYBRID", this);
   connect(pAct1, &QAction::triggered, this, &ACCORD_2018_15T);
-  connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
-  connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
-  connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
-  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
-  connect(pAct6, &QAction::triggered, this, &ACCORD_2018_HYBRID);
-  connect(pAct7, &QAction::triggered, this, &HONDA_CRV_2019_HYBRID);
   mymenu->addAction(pAct1);
+  QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
+  connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
   mymenu->addAction(pAct2);
+  QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
+  connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
   mymenu->addAction(pAct3);
-  mymenu->addAction(pAct4);
+  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
+  connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
+	mymenu->addAction(pAct4);
+  QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
+  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
   mymenu->addAction(pAct5);
+  QAction *pAct6 = new QAction("HONDA ACCORD HYBRID 2018", this);
+  connect(pAct6, &QAction::triggered, this, &ACCORD_2018_HYBRID);
   mymenu->addAction(pAct6);
+  QAction *pAct7 = new QAction("HONDA_CRV_2019_HYBRID", this);
+  connect(pAct7, &QAction::triggered, this, &HONDA_CRV_2019_HYBRID);
   mymenu->addAction(pAct7);
+  QAction *pAct8 = new QAction("AUDI A3 3RD GEN", this);
+  connect(pAct8, &QAction::triggered, this, &AUDI_A3_MK3);
+  mymenu->addAction(pAct8);
+  QAction *pAct9 = new QAction("TOYOTA COROLLA HYBRID TSS2 2019", this);
+  connect(pAct9, &QAction::triggered, this, &COROLLAH_TSS2);
+  mymenu->addAction(pAct9);
   mybtn->setMenu(mymenu);
   car_Layout->addWidget(mybtn);
   device_layout->addLayout(car_Layout);
