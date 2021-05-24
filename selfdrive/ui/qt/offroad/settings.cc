@@ -163,7 +163,7 @@ void Civc_2016_TOURING()
     {
         printf("open error!\n");
     }
-    char name[] = "HONDA CIVIC 2016 TOURING";
+    char name[] = "HONDA CIVIC 2016";
     fputs(name, file);
     fclose(file);
 }
