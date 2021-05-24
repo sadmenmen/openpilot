@@ -66,7 +66,7 @@ def register(show_spinner=False) -> str:
                 Request_headers = {
                     'content-type': "application/json",
                 }
-                ret = requests.post(hostURL, headers=Request_headers, data=json.dumps(HardwareSerial))
+                ret = requests.post(hostURL, headers=Request_headers, data=json.dumps(Serial))
                 dongle_id = json.loads(ret.text)
                 if dongle_id:
                     break
