@@ -346,9 +346,9 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QAction *pAct10 = new QAction("TOYOTA CAMRY 2018", this);
   connect(pAct10, &QAction::triggered, this, &CAMRY_2018);
   mymenu->addAction(pAct10);
-  QAction *pAct10 = new QAction("TOYOTA HIGHLANDER HYBRID 2018", this);
-  connect(pAct10, &QAction::triggered, this, &HIGHLANDERH);
-  mymenu->addAction(pAct10);
+  QAction *pAct11 = new QAction("TOYOTA HIGHLANDER HYBRID 2018", this);
+  connect(pAct11, &QAction::triggered, this, &HIGHLANDERH);
+  mymenu->addAction(pAct11);
   mybtn->setMenu(mymenu);
   car_Layout->addWidget(mybtn);
   device_layout->addLayout(car_Layout);

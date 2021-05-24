@@ -35,6 +35,7 @@ def manager_init():
     ("HasAcceptedTerms", "0"),
     ("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')),
     ("OpenpilotEnabledToggle", "1"),
+    ("CameraOffset", "6")
   ]
 
   if TICI:
