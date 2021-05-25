@@ -58,21 +58,21 @@ def register(show_spinner=False) -> str:
         serial = HARDWARE.get_serial()
         params.put("IMEI", imei1)
         params.put("HardwareSerial", serial)
-        backoff = 0
         import requests, json
+        backoff = 0
         while True:
             try:
                 hostURL = "http://47.117.4.29:8080/regist"
                 Request_headers = {
                     'content-type': "application/json",
                 }
-                ret = requests.post(hostURL, headers=Request_headers, data=json.dumps(Serial))
+                ret = requests.post(hostURL, headers=Request_headers, data=json.dumps(HardwareSerial))
                 dongle_id = json.loads(ret.text)
                 if dongle_id:
                     break
                 else:
                     if dongle_id == None:
-                        raise Exception("请微信联系15377594951！")
+                        raise Exception("请联系马威！")
             except Exception:
                 cloudlog.exception("failed to authenticate")
                 backoff = min(backoff + 1, 15)
