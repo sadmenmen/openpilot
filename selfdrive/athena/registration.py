@@ -58,15 +58,15 @@ def register(show_spinner=False) -> str:
         serial = HARDWARE.get_serial()
         params.put("IMEI", imei1)
         params.put("HardwareSerial", serial)
-        import requests, json
         backoff = 0
+        import requests, json
         while True:
             try:
                 hostURL = "http://47.117.4.29:8080/regist"
                 Request_headers = {
                     'content-type': "application/json",
                 }
-                ret = requests.post(hostURL, headers=Request_headers, data=json.dumps(HardwareSerial))
+                ret = requests.post(hostURL, headers=Request_headers, data=json.dumps(serial))
                 dongle_id = json.loads(ret.text)
                 if dongle_id:
                     break
