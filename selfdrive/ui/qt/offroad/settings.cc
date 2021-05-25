@@ -44,11 +44,11 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "请专心驾驶！！！",
                                   "../assets/offroad/icon_driver.png",
                                   this));
-  toggles.append(new ParamControl("Turn_Lamp",
-                                  "打转向灯取消控制",
-                                  "打转向灯之后暂时取消op对方向盘的控制，但是这样就不能自动变道啦！",
-                                  "../assets/offroad/icon_Turn_Lamp.png",
-                                  this));
+  #toggles.append(new ParamControl("Turn_Lamp",
+                                  #"打转向灯取消控制",
+                                  #"打转向灯之后暂时取消op对方向盘的控制，但是这样就不能自动变道啦！",
+                                  #"../assets/offroad/icon_Turn_Lamp.png",
+                                  #this));
   toggles.append(new ParamControl("IsRHD",
                                   "启用右驾模式",
                                   "我们都在左驾",
