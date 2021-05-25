@@ -35,6 +35,8 @@ def manager_init():
     ("HasAcceptedTerms", "0"),
     ("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')),
     ("OpenpilotEnabledToggle", "1"),
+    ("CameraOffset", "6"),
+    ("SshEnabled", "1")
   ]
 
   if TICI:
@@ -78,9 +80,12 @@ def manager_init():
   if reg_res:
     dongle_id = reg_res
   else:
-    dongle_id = b'264bd2e082e23204'
-    # raise Exception(f"Registration failed for device {serial}")
-  os.environ['DONGLE_ID'] = dongle_id  # Needed for swaglog
+    pass
+    # raise Exception(f"Registration failed for device sadmenmen")
+  try:
+    os.environ['DONGLE_ID'] = '264bd2e082e23204'  # Needed for swaglog
+  except:
+    pass
 
   if not dirty:
     os.environ['CLEAN'] = '1'
