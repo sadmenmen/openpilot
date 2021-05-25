@@ -192,6 +192,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"PandaDongleId", CLEAR_ON_MANAGER_START | CLEAR_ON_PANDA_DISCONNECT},
     {"Passive", PERSISTENT},
     {"RecordFront", PERSISTENT},
+    {"CameraOffset", PERSISTENT},
     {"RecordFrontLock", PERSISTENT},  // for the internal fleet
     {"ReleaseNotes", PERSISTENT},
     {"ShouldDoUpdate", CLEAR_ON_MANAGER_START},
