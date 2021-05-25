@@ -200,7 +200,7 @@ def no_gps_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Al
     "GPS信号弱",
     "If sky is visible, contact support" if gps_integrated else "请不要管他，搜星比较慢",
     AlertStatus.normal, AlertSize.mid,
-    Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=300.)
+    Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=30000000000.)
 
 def wrong_car_mode_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   text = "Cruise Mode Disabled"
