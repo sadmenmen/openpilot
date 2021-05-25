@@ -148,14 +148,14 @@ class NoEntryAlert(Alert):
 
 class SoftDisableAlert(Alert):
   def __init__(self, alert_text_2):
-    super().__init__("TAKE CONTROL IMMEDIATELY", alert_text_2,
+    super().__init__("请立即接管", alert_text_2,
                      AlertStatus.critical, AlertSize.full,
                      Priority.MID, VisualAlert.steerRequired,
                      AudibleAlert.chimeWarningRepeat, .1, 2., 2.),
 
 
 class ImmediateDisableAlert(Alert):
-  def __init__(self, alert_text_2, alert_text_1="TAKE CONTROL IMMEDIATELY"):
+  def __init__(self, alert_text_2, alert_text_1="请立即接管"):
     super().__init__(alert_text_1, alert_text_2,
                      AlertStatus.critical, AlertSize.full,
                      Priority.HIGHEST, VisualAlert.steerRequired,
@@ -189,8 +189,8 @@ def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, met
   speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
   unit = "km/h" if metric else "mph"
   return Alert(
-    "Calibration in Progress: %d%%" % sm['liveCalibration'].calPerc,
-    "Drive Above %d %s" % (speed, unit),
+    "正在校准中: %d%%" % sm['liveCalibration'].calPerc,
+    "速度请提升至高于 %d %s" % (speed, unit),
     AlertStatus.normal, AlertSize.mid,
     Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2)
 
@@ -200,7 +200,7 @@ def no_gps_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Al
     "Poor GPS reception",
     "If sky is visible, contact support" if gps_integrated else "Check GPS antenna placement",
     AlertStatus.normal, AlertSize.mid,
-    Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=300.)
+    Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=30000000000.)
 
 def wrong_car_mode_alert(CP: car.CarParams, sm: messaging.SubMaster, metric: bool) -> Alert:
   text = "Cruise Mode Disabled"
@@ -242,24 +242,24 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.startupMaster: {
     ET.PERMANENT: Alert(
-      "WARNING: This branch is not tested",
-      "Always keep hands on wheel and eyes on road",
+      "设备工作正常",
+      "请握好方向盘，注意路况",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
 
   EventName.startupNoControl: {
     ET.PERMANENT: Alert(
-      "Dashcam mode",
-      "Always keep hands on wheel and eyes on road",
+      "行车记录仪模式",
+      "请自行驾驶，设备不会参与控车",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
 
   EventName.startupNoCar: {
     ET.PERMANENT: Alert(
-      "Dashcam mode for unsupported car",
-      "Always keep hands on wheel and eyes on road",
+      "车型没有识别",
+      "请谨慎驾驶",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -270,7 +270,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.dashcamMode: {
     ET.PERMANENT: Alert(
-      "Dashcam Mode",
+      "记录仪模式",
       "",
       AlertStatus.normal, AlertSize.small,
       Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
@@ -295,8 +295,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.carUnrecognized: {
     ET.PERMANENT: Alert(
-      "Dashcam Mode",
-      "Car Unrecognized",
+      "记录仪模式",
+      "车型没有识别",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
   },
@@ -329,8 +329,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.ldw: {
     ET.PERMANENT: Alert(
-      "TAKE CONTROL",
-      "Lane Departure Detected",
+      "请接管",
+      "检测到车道偏离",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 2., 3.),
   },
@@ -421,8 +421,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.manualRestart: {
     ET.WARNING: Alert(
-      "TAKE CONTROL",
-      "Resume Driving Manually",
+      "请接管",
+      "恢复手动驾驶",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
   },
@@ -457,24 +457,24 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.laneChangeBlocked: {
     ET.WARNING: Alert(
-      "Car Detected in Blindspot",
-      "Monitor Other Vehicles",
+      "盲点检测到车辆",
+      "请注意其他车辆",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1),
   },
 
   EventName.laneChange: {
     ET.WARNING: Alert(
-      "Changing Lane",
-      "Monitor Other Vehicles",
+      "自动变道中",
+      "请注意其他车辆",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1),
   },
 
   EventName.steerSaturated: {
     ET.WARNING: Alert(
-      "TAKE CONTROL",
-      "Turn Exceeds Steering Limit",
+      "请接管",
+      "超过最大的转向角度能力",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
   },
@@ -579,7 +579,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.overheat: {
     ET.PERMANENT: Alert(
-      "System Overheated",
+      "系统过热",
       "",
       AlertStatus.normal, AlertSize.small,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
@@ -600,8 +600,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.calibrationIncomplete: {
     ET.PERMANENT: calibration_incomplete_alert,
-    ET.SOFT_DISABLE: SoftDisableAlert("Calibration in Progress"),
-    ET.NO_ENTRY: NoEntryAlert("Calibration in Progress"),
+    ET.SOFT_DISABLE: SoftDisableAlert("校准中……"),
+    ET.NO_ENTRY: NoEntryAlert("校准中……"),
   },
 
   EventName.doorOpen: {
@@ -631,7 +631,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.processNotRunning: {
-    ET.NO_ENTRY: NoEntryAlert("System Malfunction: Reboot Your Device",
+    ET.NO_ENTRY: NoEntryAlert("系统故障: 请重启设备",
                               audible_alert=AudibleAlert.chimeDisengage),
   },
 
@@ -722,9 +722,9 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.relayMalfunction: {
-    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Harness Malfunction"),
-    ET.PERMANENT: NormalPermanentAlert("Harness Malfunction", "Check Hardware"),
-    ET.NO_ENTRY: NoEntryAlert("Harness Malfunction"),
+    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Harness 故障"),
+    ET.PERMANENT: NormalPermanentAlert("Harness 故障", "检查线束是否插好"),
+    ET.NO_ENTRY: NoEntryAlert("Harness 故障"),
   },
 
   EventName.noTarget: {
@@ -751,7 +751,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       AlertStatus.normal, AlertSize.mid,
       Priority.HIGH, VisualAlert.steerRequired, AudibleAlert.chimeWarningRepeat, 2.2, 3., 4.),
     ET.NO_ENTRY: Alert(
-      "Speed Too High",
+      "速度太快",
       "Slow down to engage",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.none, AudibleAlert.chimeError, .4, 2., 3.),

@@ -26,27 +26,27 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
 
   toggles.append(new ParamControl("OpenpilotEnabledToggle",
                                   "启用 openpilot",
-                                  "Use the openpilot system for adaptive cruise control and lane keep driver assistance. Your attention is required at all times to use this feature. Changing this setting takes effect when the car is powered off.",
+                                  "使用openpilot系统进行自适应巡航控制和车道保持驾驶员辅助。要使用此功能，您需要随时注意.",
                                   "../assets/offroad/icon_openpilot.png",
                                   this));
   toggles.append(new ParamControl("IsLdwEnabled",
                                   "启用车道偏离警告",
-                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "当时速超过50km每小时，车辆压线就会发出报警提示",
                                   "../assets/offroad/icon_warning.png",
                                   this));
   toggles.append(new ParamControl("GasPressNoquit",
                                   "踩油门不退出OP",
-                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "踩油门op也能继续控制转向",
                                   "../assets/offroad/icon_gas.png",
                                   this));
   toggles.append(new ParamControl("Driverlook",
                                   "关闭驾驶员监控提醒",
-                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "请专心驾驶！！",
                                   "../assets/offroad/icon_driver.png",
                                   this));
   toggles.append(new ParamControl("Turn_Lamp",
                                   "打转向灯取消控制",
-                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
+                                  "打转向灯之后暂时取消op对方向盘的控制，但是这样就不能自动变道啦！",
                                   "../assets/offroad/icon_Turn_Lamp.png",
                                   this));
   toggles.append(new ParamControl("IsRHD",
@@ -56,32 +56,32 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   this));
   toggles.append(new ParamControl("IsMetric",
                                   "公制单位",
-                                  "Display speed in km/h instead of mp/h.",
+                                  "显示速度用km/h",
                                   "../assets/offroad/icon_metric.png",
                                   this));
   toggles.append(new ParamControl("CommunityFeaturesToggle",
                                   "启用社区功能",
-                                  "Use features from the open source community that are not maintained or supported by comma.ai and have not been confirmed to meet the standard safety model. These features include community supported cars and community supported hardware. Be extra cautious when using these features",
+                                  "好像没多大用，建议开开",
                                   "../assets/offroad/icon_shell.png",
                                   this));
 
   if (!Hardware::TICI()) {
     toggles.append(new ParamControl("IsUploadRawEnabled",
-                                    "Upload Raw Logs",
-                                    "Upload full logs and full resolution video by default while on WiFi. If not enabled, individual logs can be marked for upload at my.comma.ai/useradmin.",
+                                    "日志上传",
+                                    "暂时不知道有什么用，但需要联网才能上传",
                                     "../assets/offroad/icon_network.png",
                                     this));
   }
 
   ParamControl *record_toggle = new ParamControl("RecordFront",
                                                  "行车记录",
-                                                "Upload data from the driver facing camera and help improve the driver monitoring algorithm.",
+                                                "记录你的驾驶行为，通过前置摄像头",
                                                 "../assets/offroad/icon_monitoring.png",
                                                 this);
   toggles.append(record_toggle);
   toggles.append(new ParamControl("EndToEndToggle",
                                    "\U0001f96c 禁用车道线 (Alpha) \U0001f96c",
-                                   "In this mode openpilot will ignore lanelines and just drive how it thinks a human would.",
+                                   "无车道线模式，测试功能，请谨慎使用",
                                    "../assets/offroad/icon_road.png",
                                    this));
 
@@ -208,15 +208,15 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QList<ButtonControl*> offroad_btns;
 
   offroad_btns.append(new ButtonControl("前置相机", "预览",
-                                        "Preview the driver facing camera to help optimize device mounting position for best driver monitoring experience. (vehicle must be off)",
+                                        "看看前置相机的画面预览，停车了才能用",
                                         [=]() {
                                            Params().putBool("IsDriverViewEnabled", true);
                                            QUIState::ui_state.scene.driver_view = true;
                                         }, "", this));
 
-  QString resetCalibDesc = "openpilot requires the device to be mounted within 4° left or right and within 5° up or down. openpilot is continuously calibrating, resetting is rarely required.";
+  QString resetCalibDesc = "openpilot要求在4°以内左右，5°以内 向上或向下。openpilot持续校准，很少需要重置";
   ButtonControl *resetCalibBtn = new ButtonControl("重新较准", "重置", resetCalibDesc, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to reset calibration?", this)) {
+    if (ConfirmationDialog::confirm("确定要重新校准?", this)) {
       Params().remove("CalibrationParams");
     }
   }, "", this);
@@ -253,7 +253,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
   QString brand = params.getBool("Passive") ? "dashcam" : "openpilot";
   offroad_btns.append(new ButtonControl("卸载 " + brand, "卸载", "", [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
+    if (ConfirmationDialog::confirm("确定卸载?", this)) {
       Params().putBool("DoUninstall", true);
     }
   }, "", this));
@@ -300,7 +300,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QPushButton *reboot_btn = new QPushButton("重启");
   power_layout->addWidget(reboot_btn);
   QObject::connect(reboot_btn, &QPushButton::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to reboot?", this)) {
+    if (ConfirmationDialog::confirm("确定重启?", this)) {
       Hardware::reboot();
     }
   });
@@ -309,7 +309,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   poweroff_btn->setStyleSheet("background-color: #E22C2C;");
   power_layout->addWidget(poweroff_btn);
   QObject::connect(poweroff_btn, &QPushButton::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to power off?", this)) {
+    if (ConfirmationDialog::confirm("确定关机?", this)) {
       Hardware::poweroff();
     }
   });
