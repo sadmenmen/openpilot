@@ -175,7 +175,8 @@ class Controls:
       # at zero percent battery, while discharging, OP should not allowed
       self.events.add(EventName.lowBattery)
     if self.sm['deviceState'].thermalStatus >= ThermalStatus.red:
-      self.events.add(EventName.overheat)
+      pass
+      # self.events.add(EventName.overheat)
     if self.sm['deviceState'].freeSpacePercent < 7:
       # under 7% of space free no enable allowed
       self.events.add(EventName.outOfSpace)
