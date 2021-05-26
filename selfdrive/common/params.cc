@@ -165,6 +165,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"GitBranch", PERSISTENT},
     {"GasPressNoquit", PERSISTENT},
     {"Driverlook", PERSISTENT},
+    {"Temp_alart", PERSISTENT},
     {"Turn_Lamp", PERSISTENT},
     {"GitCommit", PERSISTENT},
     {"GitRemote", PERSISTENT},

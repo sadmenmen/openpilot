@@ -39,6 +39,11 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "踩油门op也能继续控制转向",
                                   "../assets/offroad/icon_gas.png",
                                   this));
+  toggles.append(new ParamControl("Temp_alart",
+                                  "关闭高温告警",
+                                  "忽略温度告警，请注意温度,谨慎驾驶!",
+                                  "../assets/offroad/temp.png",
+                                  this));
   toggles.append(new ParamControl("Driverlook",
                                   "关闭驾驶员监控提醒",
                                   "请专心驾驶！！",

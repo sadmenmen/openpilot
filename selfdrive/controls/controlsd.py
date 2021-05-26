@@ -169,14 +169,14 @@ class Controls:
     if not self.initialized:
       self.events.add(EventName.controlsInitializing)
       return
-
+    params = Params()
+    Temp_alart_status = params.get_bool('Temp_alart')
     # Create events for battery, temperature, disk space, and memory
     if self.sm['deviceState'].batteryPercent < 0 and self.sm['deviceState'].chargingError:
       # at zero percent battery, while discharging, OP should not allowed
       self.events.add(EventName.lowBattery)
-    if self.sm['deviceState'].thermalStatus >= ThermalStatus.red:
-      pass
-      # self.events.add(EventName.overheat)
+    if (self.sm['deviceState'].thermalStatus >= ThermalStatus.red) and not Temp_alart_status:
+      self.events.add(EventName.overheat)
     if self.sm['deviceState'].freeSpacePercent < 7:
       # under 7% of space free no enable allowed
       self.events.add(EventName.outOfSpace)
