@@ -49,7 +49,7 @@ class CarInterface(CarInterfaceBase):
       if 0xfd in fingerprint[1]:  # ESP_21 present on bus 1, we're hooked up at the CAN gateway
         ret.networkLocation = NetworkLocation.gateway
       else:  # We're hooked up at the LKAS camera
-        ret.networkLocation = NetworkLocation.gateway
+        ret.networkLocation = NetworkLocation.fwdCamera
       cloudlog.info("Detected network location: %s", ret.networkLocation)
 
     # Global tuning defaults, can be overridden per-vehicle
@@ -99,6 +99,11 @@ class CarInterface(CarInterfaceBase):
     elif candidate == CAR.SEAT_ATECA_MK1:
       # Averages of all 5F Ateca variants
       ret.mass = 1900 + STD_CARGO_KG
+      ret.wheelbase = 2.64
+
+    elif candidate == CAR.SEAT_LEON_MK3:
+      # Averages of all 5F Leon variants
+      ret.mass = 1227 + STD_CARGO_KG
       ret.wheelbase = 2.64
 
     elif candidate == CAR.SKODA_KODIAQ_MK1:
@@ -166,7 +171,7 @@ class CarInterface(CarInterfaceBase):
         be.pressed = self.CS.buttonStates[button]
         buttonEvents.append(be)
 
-    events = self.create_common_events(ret, extra_gears=[GearShifter.eco, GearShifter.sport])
+    events = self.create_common_events(ret, extra_gears=[GearShifter.eco, GearShifter.sport, GearShifter.manumatic])
 
     # Vehicle health and operation safety checks
     if self.CS.parkingBrakeSet:
