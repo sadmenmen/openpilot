@@ -1,4 +1,9 @@
-Version 0.8.4 (2021-05-07)
+Version 0.8.4 (2021-05-27)
+========================
+ * 同步大众分支更新
+
+ 
+Version 0.8.4 (2021-05-27)
 ========================
  * Delay controls start until system is ready
  * Fuzzy car identification, enabled with Community Features toggle
