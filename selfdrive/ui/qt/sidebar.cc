@@ -50,7 +50,7 @@ void Sidebar::mousePressEvent(QMouseEvent *event) {
 
 void Sidebar::update(const UIState &s) {
   if (s.sm->frame % (6*UI_FREQ) == 0) {
-    connect_str = "没连上";
+    connect_str = "已连接";
     connect_status = warning_color;
     auto last_ping = params.get<float>("LastAthenaPingTime");
     if (last_ping) {
@@ -77,7 +77,7 @@ void Sidebar::update(const UIState &s) {
   panda_status = good_color;
   if (s.scene.pandaType == cereal::PandaState::PandaType::UNKNOWN) {
     panda_status = danger_color;
-    panda_str = "没连上\n小盒子";
+    panda_str = "没连上\nPANDA";
   } else if (Hardware::TICI() && s.scene.started) {
     panda_str = QString("SAT CNT\n%1").arg(s.scene.satelliteCount);
     panda_status = s.scene.gpsOK ? good_color : warning_color;
