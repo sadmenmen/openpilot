@@ -130,6 +130,17 @@ void AVALON_2019_TOYOTA()
     fputs(name, file);
     fclose(file);
 }
+void HONDA_2019_CRV_HYBRID()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "HONDA CR-V 2019 HYBRID";
+    fputs(name, file);
+    fclose(file);
+}
 
 DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QVBoxLayout *device_layout = new QVBoxLayout;
@@ -187,16 +198,19 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
   QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
   QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
+  QAction *pAct6 = new QAction("HONDA_2019_CRV_HYBRID", this);
   connect(pAct1, &QAction::triggered, this, &addFunc);
   connect(pAct2, &QAction::triggered, this, &delFunc);
   connect(pAct3, &QAction::triggered, this, &test);
   connect(pAct4, &QAction::triggered, this, &Civc);
   connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
+  connect(pAct6, &QAction::triggered, this, &HONDA_2019_CRV_HYBRID);
   mymenu->addAction(pAct1);
   mymenu->addAction(pAct2);
   mymenu->addAction(pAct3);
   mymenu->addAction(pAct4);
   mymenu->addAction(pAct5);
+  mymenu->addAction(pAct6);
   mybtn->setMenu(mymenu);
   car_Layout->addWidget(mybtn);
   device_layout->addLayout(car_Layout);
