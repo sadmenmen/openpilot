@@ -179,6 +179,7 @@ struct CarState {
 
   # clutch (manual transmission only)
   clutchPressed @28 :Bool;
+  engineRPM @37 :Float32;
 
   # which packets this state came from
   canMonoTimes @12: List(UInt64);
@@ -246,7 +247,6 @@ struct CarState {
 struct RadarData @0x888ad6581cf0aacb {
   errors @0 :List(Error);
   points @1 :List(RadarPoint);
-
   # which packets this state came from
   canMonoTimes @2 :List(UInt64);
 

@@ -468,7 +468,7 @@ class CarInterface(CarInterfaceBase):
         brakelights_threshold = 0.02 if self.CS.CP.carFingerprint == CAR.CIVIC else 0.1
         ret.brakeLights = bool(self.CS.brake_switch or
                                c.actuators.brake > brakelights_threshold)
-
+        ret.engineRPM = self.CS.engineRPM
         buttonEvents = []
 
         if self.CS.cruise_buttons != self.CS.prev_cruise_buttons:
