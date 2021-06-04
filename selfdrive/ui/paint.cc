@@ -369,6 +369,8 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   int label_fontSize=15;
   int uom_fontSize = 15;
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
+  float d_rel = s->scene.lead_data[0].getDRel();
+  float v_rel = s->scene.lead_data[0].getVRel();
   //CPU TEMP
     if (true) {
     char val_str[16];
@@ -475,17 +477,17 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     char val_str[16];
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
-    if (s->scene.lead_status) {
+    if (s->scene.lead_data[0].getStatus()) {
       //show RED if less than 5 meters
       //show orange if less than 15 meters
-      if((int)(s->scene.lead_d_rel) < 15) {
+      if((int)(d_rel) < 15) {
         val_color = nvgRGBA(255, 188, 3, 200);
       }
-      if((int)(s->scene.lead_d_rel) < 5) {
+      if((int)(d_rel) < 5) {
         val_color = nvgRGBA(255, 0, 0, 200);
       }
       // lead car relative distance is always in meters
-      snprintf(val_str, sizeof(val_str), "%d", (int)s->scene.lead_d_rel);
+      snprintf(val_str, sizeof(val_str), "%d", (int)s->d_rel);
     } else {
        snprintf(val_str, sizeof(val_str), "-");
     }
@@ -502,20 +504,20 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     char val_str[16];
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
-    if (s->scene.lead_status) {
+    if (s->scene.lead_data[0].getStatus()) {
       //show Orange if negative speed (approaching)
       //show Orange if negative speed faster than 5mph (approaching fast)
-      if((int)(s->scene.lead_v_rel) < 0) {
+      if((int)(v_rel) < 0) {
         val_color = nvgRGBA(255, 188, 3, 200);
       }
-      if((int)(s->scene.lead_v_rel) < -5) {
+      if((int)(v_rel) < -5) {
         val_color = nvgRGBA(255, 0, 0, 200);
       }
       // lead car relative speed is always in meters
       if (s->scene.is_metric) {
-         snprintf(val_str, sizeof(val_str), "%d", (int)(s->scene.lead_v_rel * 3.6 + 0.5));
+         snprintf(val_str, sizeof(val_str), "%d", (int)(v_rel * 3.6 + 0.5));
       } else {
-         snprintf(val_str, sizeof(val_str), "%d", (int)(s->scene.lead_v_rel * 2.2374144 + 0.5));
+         snprintf(val_str, sizeof(val_str), "%d", (int)(v_rel * 2.2374144 + 0.5));
       }
     } else {
        snprintf(val_str, sizeof(val_str), "-");
