@@ -487,7 +487,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
         val_color = nvgRGBA(255, 0, 0, 200);
       }
       // lead car relative distance is always in meters
-      snprintf(val_str, sizeof(val_str), "%d", (int)s->d_rel);
+      snprintf(val_str, sizeof(val_str), "%d", (int)d_rel);
     } else {
        snprintf(val_str, sizeof(val_str), "-");
     }
