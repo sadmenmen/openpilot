@@ -369,8 +369,6 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   int label_fontSize=15;
   int uom_fontSize = 15;
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
-  float d_rel = s->scene.lead_data[0].getDRel();
-  float v_rel = s->scene.lead_data[0].getVRel();
   //CPU TEMP
     if (true) {
     char val_str[16];
@@ -471,6 +469,8 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   int label_fontSize=15;
   int uom_fontSize = 15;
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
+  float d_rel = s->scene.lead_data[0].getDRel();
+  float v_rel = s->scene.lead_data[0].getVRel();
 
   //add visual radar relative distance
   if (true) {
