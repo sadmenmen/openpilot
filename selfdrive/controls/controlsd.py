@@ -200,16 +200,18 @@ class Controls:
         self.events.add(EventName.calibrationInvalid)
 
     # Handle lane change
+    Turn_Lamp_info = params.get_bool('Turn_Lamp')
     if self.sm['lateralPlan'].laneChangeState == LaneChangeState.preLaneChange:
       direction = self.sm['lateralPlan'].laneChangeDirection
       if (CS.leftBlindspot and direction == LaneChangeDirection.left) or \
          (CS.rightBlindspot and direction == LaneChangeDirection.right):
         self.events.add(EventName.laneChangeBlocked)
       else:
-        if direction == LaneChangeDirection.left:
-          self.events.add(EventName.preLaneChangeLeft)
-        else:
-          self.events.add(EventName.preLaneChangeRight)
+        if not Turn_Lamp_info:
+            if direction == LaneChangeDirection.left:
+              self.events.add(EventName.preLaneChangeLeft)
+            else:
+              self.events.add(EventName.preLaneChangeRight)
     elif self.sm['lateralPlan'].laneChangeState in [LaneChangeState.laneChangeStarting,
                                                  LaneChangeState.laneChangeFinishing]:
       self.events.add(EventName.laneChange)
