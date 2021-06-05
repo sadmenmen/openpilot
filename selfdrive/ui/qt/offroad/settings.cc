@@ -220,7 +220,17 @@ void COROLLAH_TSS2()
     fputs(name, file);
     fclose(file);
 }
-
+void COROLLA_TSS2()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA COROLLA TSS2 2019";
+    fputs(name, file);
+    fclose(file);
+}
 void CAMRY_2018()
 {
     FILE *file = fopen("car_model_test.txt", "w");
@@ -354,6 +364,9 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QAction *pAct11 = new QAction("TOYOTA HIGHLANDER HYBRID 2018", this);
   connect(pAct11, &QAction::triggered, this, &HIGHLANDERH_2018);
   mymenu->addAction(pAct11);
+  QAction *pAct12 = new QAction("TOYOTA COROLLA TSS2 2019", this);
+  connect(pAct12, &QAction::triggered, this, &COROLLA_TSS2);
+  mymenu->addAction(pAct12);
   mybtn->setMenu(mymenu);
   car_Layout->addWidget(mybtn);
   device_layout->addLayout(car_Layout);
