@@ -33,6 +33,26 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
                                   "../assets/offroad/icon_warning.png",
                                   this));
+                                    toggles.append(new ParamControl("GasPressNoquit",
+                                  "踩油门不退出OP",
+                                  "踩油门op也能继续控制转向",
+                                  "../assets/offroad/icon_gas.png",
+                                  this));
+  toggles.append(new ParamControl("Temp_alart",
+                                  "关闭高温告警",
+                                  "忽略温度告警，请注意温度,谨慎驾驶!",
+                                  "../assets/offroad/temp.png",
+                                  this));
+  toggles.append(new ParamControl("Driverlook",
+                                  "关闭驾驶员监控提醒",
+                                  "请专心驾驶！！",
+                                  "../assets/offroad/icon_driver.png",
+                                  this));
+  toggles.append(new ParamControl("Turn_Lamp",
+                                  "打转向灯取消控制",
+                                  "打转向灯之后暂时取消op对方向盘的控制，但是这样就不能自动变道啦！",
+                                  "../assets/offroad/icon_Turn_Lamp.png",
+                                  this));
   toggles.append(new ParamControl("IsRHD",
                                   "Enable Right-Hand Drive",
                                   "Allow openpilot to obey left-hand traffic conventions and perform driver monitoring on right driver seat.",
@@ -95,6 +115,146 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
   }
 
   setLayout(toggles_list);
+}
+
+void ACCORD_2018_15T()
+{
+	FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "HONDA ACCORD 1.5T 2018";
+    fputs(name, file);
+    fclose(file);
+}
+
+void VOLKSWAGEN_GOLF_7TH()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "VOLKSWAGEN GOLF 7TH GEN";
+    fputs(name, file);
+    fclose(file);
+}
+void ACCORD_2018_HYBRID()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "HONDA ACCORD HYBRID 2018";
+    fputs(name, file);
+    fclose(file);
+}
+void CAMRY_2018_HYBRID()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA CAMRY HYBRID 2018";
+    fputs(name, file);
+    fclose(file);
+}
+
+void Civc_2016_TOURING()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "HONDA CIVIC 2016 TOURING";
+    fputs(name, file);
+    fclose(file);
+}
+
+void AVALON_2019_TOYOTA()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA AVALON 2019";
+    fputs(name, file);
+    fclose(file);
+}
+
+void HONDA_CRV_2019_HYBRID()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "HONDA CR-V HYBRID 2019";
+    fputs(name, file);
+    fclose(file);
+}
+
+void AUDI_A3_MK3()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "AUDI A3 3RD GEN";
+    fputs(name, file);
+    fclose(file);
+}
+
+void COROLLAH_TSS2()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA COROLLA HYBRID TSS2 2019";
+    fputs(name, file);
+    fclose(file);
+}
+void COROLLA_TSS2()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA COROLLA TSS2 2019";
+    fputs(name, file);
+    fclose(file);
+}
+void CAMRY_2018()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA CAMRY 2018";
+    fputs(name, file);
+    fclose(file);
+}
+
+void HIGHLANDERH_2018()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA HIGHLANDER HYBRID 2018";
+    fputs(name, file);
+    fclose(file);
 }
 
 DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
@@ -164,6 +324,50 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
     QObject::connect(parent, SIGNAL(offroadTransition(bool)), btn, SLOT(setEnabled(bool)));
     device_layout->addWidget(btn);
   }
+
+  //choose car
+  QHBoxLayout *car_Layout=new QHBoxLayout();
+  QPushButton *mybtn=new QPushButton("车型选择");
+  QMenu *mymenu=new QMenu;
+  QAction *pAct1 = new QAction("HONDA ACCORD 2018 LX 1.5T", this);
+  connect(pAct1, &QAction::triggered, this, &ACCORD_2018_15T);
+  mymenu->addAction(pAct1);
+  QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
+  connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
+  mymenu->addAction(pAct2);
+  QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
+  connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
+  mymenu->addAction(pAct3);
+  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
+  connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
+	mymenu->addAction(pAct4);
+  QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
+  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
+  mymenu->addAction(pAct5);
+  QAction *pAct6 = new QAction("HONDA ACCORD HYBRID 2018", this);
+  connect(pAct6, &QAction::triggered, this, &ACCORD_2018_HYBRID);
+  mymenu->addAction(pAct6);
+  QAction *pAct7 = new QAction("HONDA_CRV_2019_HYBRID", this);
+  connect(pAct7, &QAction::triggered, this, &HONDA_CRV_2019_HYBRID);
+  mymenu->addAction(pAct7);
+  QAction *pAct8 = new QAction("AUDI A3 3RD GEN", this);
+  connect(pAct8, &QAction::triggered, this, &AUDI_A3_MK3);
+  mymenu->addAction(pAct8);
+  QAction *pAct9 = new QAction("TOYOTA COROLLA HYBRID TSS2 2019", this);
+  connect(pAct9, &QAction::triggered, this, &COROLLAH_TSS2);
+  mymenu->addAction(pAct9);
+  QAction *pAct10 = new QAction("TOYOTA CAMRY 2018", this);
+  connect(pAct10, &QAction::triggered, this, &CAMRY_2018);
+  mymenu->addAction(pAct10);
+  QAction *pAct11 = new QAction("TOYOTA HIGHLANDER HYBRID 2018", this);
+  connect(pAct11, &QAction::triggered, this, &HIGHLANDERH_2018);
+  mymenu->addAction(pAct11);
+  QAction *pAct12 = new QAction("TOYOTA COROLLA TSS2 2019", this);
+  connect(pAct12, &QAction::triggered, this, &COROLLA_TSS2);
+  mymenu->addAction(pAct12);
+  mybtn->setMenu(mymenu);
+  car_Layout->addWidget(mybtn);
+  device_layout->addLayout(car_Layout);
 
   // power buttons
   QHBoxLayout *power_layout = new QHBoxLayout();

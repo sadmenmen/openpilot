@@ -3,6 +3,9 @@ from selfdrive.car import apply_std_steer_torque_limits
 from selfdrive.car.volkswagen import volkswagencan
 from selfdrive.car.volkswagen.values import DBC, CANBUS, MQB_LDW_MESSAGES, BUTTON_STATES, CarControllerParams
 from opendbc.can.packer import CANPacker
+from common.params import Params
+params = Params()
+Turn_Lamp_info = params.get_bool('Turn_Lamp')
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 
@@ -18,6 +21,9 @@ class CarController():
     self.graMsgSentCount = 0
     self.graMsgStartFramePrev = 0
     self.graMsgBusCounterPrev = 0
+    # dp
+    self.last_blinker_on = False
+    self.blinker_end_frame = 0.
 
     self.steer_rate_limited = False
 
@@ -94,6 +100,14 @@ class CarController():
         # Continue sending HCA_01 messages, with the enable flags turned off.
         hcaEnabled = False
         apply_steer = 0
+      # dp
+      if Turn_Lamp_info:
+        blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
+        if self.last_blinker_on and not blinker_on:
+          self.blinker_end_frame = frame
+        if blinker_on:
+          apply_steer = 0 if isinstance(apply_steer, int) else False
+        self.last_blinker_on = blinker_on
 
       self.apply_steer_last = apply_steer
       idx = (frame / P.HCA_STEP) % 16

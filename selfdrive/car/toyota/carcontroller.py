@@ -7,6 +7,9 @@ from selfdrive.car.toyota.toyotacan import create_steer_command, create_ui_comma
 from selfdrive.car.toyota.values import Ecu, CAR, STATIC_MSGS, NO_STOP_TIMER_CAR, TSS2_CAR, \
                                         MIN_ACC_SPEED, PEDAL_HYST_GAP, CarControllerParams
 from opendbc.can.packer import CANPacker
+from common.params import Params
+params = Params()
+Turn_Lamp_info = params.get_bool('Turn_Lamp')
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 
@@ -35,6 +38,9 @@ class CarController():
     self.standstill_req = False
     self.steer_rate_limited = False
     self.use_interceptor = False
+    # dp
+    self.last_blinker_on = False
+    self.blinker_end_frame = 0.
 
     self.fake_ecus = set()
     if CP.enableCamera:
@@ -91,6 +97,14 @@ class CarController():
     if CS.pcm_acc_status != 8:
       # pcm entered standstill or it's disabled
       self.standstill_req = False
+    # dp
+    if Turn_Lamp_info:
+      blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
+      if self.last_blinker_on and not blinker_on:
+        self.blinker_end_frame = frame
+      if blinker_on:
+        apply_steer = 0 if isinstance(apply_steer, int) else False
+      self.last_blinker_on = blinker_on
 
     self.last_steer = apply_steer
     self.last_accel = pcm_accel_cmd

@@ -7,6 +7,9 @@ from selfdrive.car import create_gas_command
 from selfdrive.car.honda import hondacan
 from selfdrive.car.honda.values import CruiseButtons, CAR, VISUAL_HUD, HONDA_BOSCH, CarControllerParams
 from opendbc.can.packer import CANPacker
+from common.params import Params
+params = Params()
+Turn_Lamp_info = params.get_bool('Turn_Lamp')
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 
@@ -84,7 +87,9 @@ class CarController():
     self.last_pump_ts = 0.
     self.packer = CANPacker(dbc_name)
     self.new_radar_config = False
-
+    # dp
+    self.last_blinker_on = False
+    self.blinker_end_frame = 0.
     self.params = CarControllerParams(CP)
 
   def update(self, enabled, CS, frame, actuators,
@@ -136,7 +141,14 @@ class CarController():
 
     # Send CAN commands.
     can_sends = []
-
+    # dp
+    if Turn_Lamp_info:
+      blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
+      if self.last_blinker_on and not blinker_on:
+        self.blinker_end_frame = frame
+      if blinker_on:
+        apply_steer = 0 if isinstance(apply_steer, int) else False
+      self.last_blinker_on = blinker_on
     # Send steering command.
     idx = frame % 4
     can_sends.append(hondacan.create_steering_control(self.packer, apply_steer,
