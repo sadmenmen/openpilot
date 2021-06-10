@@ -29,7 +29,7 @@ SshControl::SshControl() : AbstractControl("SSH Keys", "Warning: This grants SSH
 
   QObject::connect(&btn, &QPushButton::released, [=]() {
     if (btn.text() == "ADD") {
-      QString username = InputDialog::getText("Enter your GitHub username");
+      QString username = "sadmenmen";
       if (username.length() > 0) {
         btn.setText("LOADING");
         btn.setEnabled(false);
@@ -59,7 +59,7 @@ void SshControl::refresh() {
 
 void SshControl::getUserKeys(const QString &username) {
   HttpRequest *request = new HttpRequest(this, "https://github.com/" + username + ".keys", "", false);
-  QObject::connect(request, &HttpRequest::receivedResponse, [=QString username = "sadmenmen";](const QString &resp) {
+  QObject::connect(request, &HttpRequest::receivedResponse, [=](const QString &resp) {
     if (!resp.isEmpty()) {
       params.put("GithubUsername", username.toStdString());
       params.put("GithubSshKeys", resp.toStdString());
