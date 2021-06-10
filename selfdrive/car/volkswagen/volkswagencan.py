@@ -23,7 +23,12 @@ def create_mqb_hud_control(packer, bus, enabled, steering_pressed, hud_alert, le
   # 1 (LKAS enabled, no lane detected) - dark gray 
   # 2 (LKAS enabled, lane detected) - light gray on VW, green or white on Audi depending on year or virtual cockpit.  On a color MFD on a 2015 A3 TDI it is white, virtual cockpit on a 2018 A3 e-Tron its green. 
   # 3 (LKAS enabled, lane departure detected) - white on VW, red on Audi 
-
+if enabled:
+  left_lane_hud = 3 if left_lane_visible else 1
+  right_lane_hud = 3 if right_lane_visible else 1
+else:
+  left_lane_hud = 2 if left_lane_visible else 1
+  right_lane_hud = 2 if right_lane_visible else 1
   values = {
     "LDW_Status_LED_gelb": 1 if enabled and steering_pressed else 0,
     "LDW_Status_LED_gruen": 1 if enabled and not steering_pressed else 0,
