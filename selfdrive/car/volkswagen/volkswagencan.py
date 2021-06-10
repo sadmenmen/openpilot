@@ -32,8 +32,8 @@ else:
   values = {
     "LDW_Status_LED_gelb": 1 if enabled and steering_pressed else 0,
     "LDW_Status_LED_gruen": 1 if enabled and not steering_pressed else 0,
-    "LDW_SW_Info_links": 3 if left_lane_depart else 1 + left_lane_visible,
-    "LDW_SW_Info_rechts": 3 if right_lane_depart else 1 + right_lane_visible,
+    "LDW_SW_Info_links": left_lane_hud,
+    "LDW_SW_Info_rechts": right_lane_hud,
     "LDW_Texte": hud_alert,
     "LDW_SW_Warnung_links": ldw_lane_warning_left,
     "LDW_SW_Warnung_rechts": ldw_lane_warning_right,
