@@ -91,7 +91,7 @@ def fingerprint(logcan, sendcan):
     fixed_fingerprint = car_content
   else:
     fixed_fingerprint = os.environ.get('FINGERPRINT', "")
-  skip_fw_query = os.environ.get('SKIP_FW_QUERY', "1"
+  skip_fw_query = os.environ.get('SKIP_FW_QUERY', "1")
 
   if not fixed_fingerprint and not skip_fw_query:
     # Vin query only reliably works thorugh OBDII
