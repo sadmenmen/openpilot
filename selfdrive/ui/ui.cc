@@ -121,7 +121,7 @@ static void update_model(UIState *s, const cereal::ModelDataV2::Reader &model) {
   update_line_data(s, model_position, 0.5, 1.22, &scene.track_vertices, max_idx);
 }
 
-static void update_sockets(UIState *s){
+static void update_sockets(UIState *s) {
   s->sm->update(0);
 }
 
@@ -132,17 +132,7 @@ static void update_state(UIState *s) {
   // update engageability and DM icons at 2Hz
   if (sm.frame % (UI_FREQ / 2) == 0) {
     scene.engageable = sm["controlsState"].getControlsState().getEngageable();
-    s->scene.output_scale = scene.controls_state.getLateralControlState().getPidState().getOutput();
-    s->scene.angleSteersDes = scene.controls_state.getSteeringAngleDesiredDeg();
     scene.dm_active = sm["driverMonitoringState"].getDriverMonitoringState().getIsActiveMode();
-    s->scene.steerOverride= scene.car_state.getSteeringPressed();
-    s->scene.angleSteers = scene.car_state.getSteeringAngleDeg();
-    s->scene.brakeLights = scene.car_state.getBrakeLights();
-    s->scene.engineRPM = scene.car_state.getEngineRPM();
-    s->scene.aEgo = scene.car_state.getAEgo();
-    s->scene.steeringTorqueEps = scene.car_state.getSteeringTorqueEps();
-    s->scene.cpuTemp = scene.deviceState.getCpuTempC()[0];
-    s->scene.cpuPerc = scene.deviceState.getCpuUsagePercent();
   }
   if (sm.updated("radarState")) {
     std::optional<cereal::ModelDataV2::XYZTData::Reader> line;
@@ -182,11 +172,7 @@ static void update_state(UIState *s) {
     auto data = sm["ubloxGnss"].getUbloxGnss();
     if (data.which() == cereal::UbloxGnss::MEASUREMENT_REPORT) {
       scene.satelliteCount = data.getMeasurementReport().getNumMeas();
-      s->scene.satelliteCount = scene.satelliteCount;
     }
-    auto data2 = sm["gpsLocationExternal"].getGpsLocationExternal();
-    s->scene.gpsAccuracyUblox = data2.getAccuracy();
-    s->scene.altitudeUblox = data2.getAltitude();
   }
   if (sm.updated("gpsLocationExternal")) {
     scene.gpsAccuracy = sm["gpsLocationExternal"].getGpsLocationExternal().getAccuracy();
@@ -198,12 +184,12 @@ static void update_state(UIState *s) {
     for (auto sensor : sm["sensorEvents"].getSensorEvents()) {
       if (!scene.started && sensor.which() == cereal::SensorEventData::ACCELERATION) {
         auto accel = sensor.getAcceleration().getV();
-        if (accel.totalSize().wordCount){ // TODO: sometimes empty lists are received. Figure out why
+        if (accel.totalSize().wordCount) { // TODO: sometimes empty lists are received. Figure out why
           scene.accel_sensor = accel[2];
         }
       } else if (!scene.started && sensor.which() == cereal::SensorEventData::GYRO_UNCALIBRATED) {
         auto gyro = sensor.getGyroUncalibrated().getV();
-        if (gyro.totalSize().wordCount){
+        if (gyro.totalSize().wordCount) {
           scene.gyro_sensor = gyro[1];
         }
       }
@@ -235,14 +221,14 @@ static void update_params(UIState *s) {
 
 static void update_vision(UIState *s) {
   if (!s->vipc_client->connected && s->scene.started) {
-    if (s->vipc_client->connect(false)){
+    if (s->vipc_client->connect(false)) {
       ui_init_vision(s);
     }
   }
 
-  if (s->vipc_client->connected){
+  if (s->vipc_client->connected) {
     VisionBuf * buf = s->vipc_client->recv();
-    if (buf != nullptr){
+    if (buf != nullptr) {
       s->last_frame = buf;
     } else if (!Hardware::PC()) {
       LOGE("visionIPC receive timeout");
@@ -274,10 +260,12 @@ static void update_status(UIState *s) {
       s->wide_camera = Hardware::TICI() ? Params().getBool("EnableWideCamera") : false;
 
       // Update intrinsics matrix after possible wide camera toggle change
-      ui_resize(s, s->fb_w, s->fb_h);
+      if (s->vg) {
+        ui_resize(s, s->fb_w, s->fb_h);
+      }
 
       // Choose vision ipc client
-      if (s->wide_camera){
+      if (s->wide_camera) {
         s->vipc_client = s->vipc_client_wide;
       } else {
         s->vipc_client = s->vipc_client_rear;
@@ -292,7 +280,7 @@ static void update_status(UIState *s) {
 
 QUIState::QUIState(QObject *parent) : QObject(parent) {
   ui_state.sm = std::make_unique<SubMaster, const std::initializer_list<const char *>>({
-    "modelV2", "controlsState","uiLayoutState", "liveCalibration", "radarState", "deviceState", "liveLocationKalman",
+    "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "liveLocationKalman",
     "pandaState", "carParams", "driverMonitoringState", "sensorEvents", "carState", "ubloxGnss",
     "gpsLocationExternal", "roadCameraState",
   });
@@ -300,7 +288,6 @@ QUIState::QUIState(QObject *parent) : QObject(parent) {
   ui_state.fb_w = vwp_w;
   ui_state.fb_h = vwp_h;
   ui_state.scene.started = false;
-  ui_state.scene.satelliteCount = -1;
   ui_state.last_frame = nullptr;
   ui_state.wide_camera = Hardware::TICI() ? Params().getBool("EnableWideCamera") : false;
 
@@ -360,7 +347,7 @@ void Device::setAwake(bool on, bool reset) {
 }
 
 void Device::updateBrightness(const UIState &s) {
-  float brightness_b = 2;
+  float brightness_b = 10;
   float brightness_m = 0.1;
   float clipped_brightness = std::min(100.0f, (s.scene.light_sensor * brightness_m) + brightness_b);
   if (!s.scene.started) {
