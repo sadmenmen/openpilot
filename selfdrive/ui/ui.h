@@ -84,7 +84,7 @@ typedef struct UIScene {
   int lead_status;
   float lead_d_rel, lead_v_rel;
   cereal::PandaState::PandaType pandaType;
- float angleSteers;
+  float angleSteers;
   bool brakeLights;
   float angleSteersDes;
   bool recording;
