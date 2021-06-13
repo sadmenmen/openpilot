@@ -319,12 +319,12 @@ static void bb_ui_draw_measures_left(UIState *s, int bb_x, int bb_y, int bb_w ) 
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
   //CPU TEMP
     if (true) {
-    //char val_str[16];
+    char val_str[16];
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
-    //snprintf(val_str, sizeof(val_str), "%.0f°C", (round((s->scene.cpuTemp))));
+    snprintf(val_str, sizeof(val_str), "%.0f°C", (round((s->scene.cpuTemp))));
     snprintf(uom_str, sizeof(uom_str), "%d%%", (s->scene.cpuPerc));
-    bb_h +=bb_ui_draw_measure(s,  "-", uom_str, "CPU TEMP",
+    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "CPU TEMP",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
@@ -484,7 +484,7 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
 
   //add steering angle
   if (true) {
-    //char val_str[16];
+    char val_str[16];
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
       //show Orange if more than 6 degrees
@@ -496,10 +496,10 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
         val_color = nvgRGBA(255, 0, 0, 200);
       }
       // steering is in degrees
-       // snprintf(val_str, sizeof(val_str), "%.0f°",(s->scene.angleSteers));
+      snprintf(val_str, sizeof(val_str), "%.0f°",(s->scene.angleSteers));
 
       snprintf(uom_str, sizeof(uom_str), "");
-    bb_h +=bb_ui_draw_measure(s,  "-", uom_str, "REAL STEER",
+    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "REAL STEER",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
@@ -521,12 +521,12 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
         val_color = nvgRGBA(255, 0, 0, 200);
       }
       // steering is in degrees
-      //snprintf(val_str, sizeof(val_str), "%.0f°",(s->scene.angleSteersDes));
+      snprintf(val_str, sizeof(val_str), "%.0f°",(s->scene.angleSteersDes));
     } else {
        snprintf(val_str, sizeof(val_str), "-");
     }
       snprintf(uom_str, sizeof(uom_str), "");
-    bb_h +=bb_ui_draw_measure(s,  "-", uom_str, "DESIR STEER",
+    bb_h +=bb_ui_draw_measure(s,  val_str, uom_str, "DESIR STEER",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
         value_fontSize, label_fontSize, uom_fontSize );
