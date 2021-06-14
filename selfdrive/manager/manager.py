@@ -34,6 +34,11 @@ def manager_init():
     ("CompletedTrainingVersion", "1"),
     ("HasAcceptedTerms", "1"),
     ("OpenpilotEnabledToggle", "1"),
+    ("IsLdwEnabled", "1"),
+    ("GasPressNoquit", "1"),
+    ("Driverlook", "1"),
+    ("CommunityFeaturesToggle", "1"),
+    ("IsMetric", "1"),
   ]
   if not PC:
     default_params.append(("LastUpdateTime", datetime.datetime.utcnow().isoformat().encode('utf8')))
