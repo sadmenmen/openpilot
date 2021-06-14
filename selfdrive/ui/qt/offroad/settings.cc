@@ -64,8 +64,8 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "../assets/offroad/icon_metric.png",
                                   this));
   toggles.append(new ParamControl("CommunityFeaturesToggle",
-                                  "启用社区功能",
-                                  "Use features from the open source community that are not maintained or supported by comma.ai and have not been confirmed to meet the standard safety model. These features include community supported cars and community supported hardware. Be extra cautious when using these features",
+                                  "社区功能",
+                                  "使用来自开放源码社区的功能，这些功能不由comma.ai维护或支持，并且尚未确认符合标准安全模型。这些功能包括社区支持的汽车和社区支持的硬件。使用这些功能时要格外小心",
                                   "../assets/offroad/icon_shell.png",
                                   this));
 
@@ -275,7 +275,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
                                         "Preview the driver facing camera to help optimize device mounting position for best driver monitoring experience. (vehicle must be off)",
                                         [=]() { emit showDriverView(); }, "", this));
 
-  QString resetCalibDesc = "openpilot requires the device to be mounted within 4° left or right and within 5° up or down. openpilot is continuously calibrating, resetting is rarely required.";
+  QString resetCalibDesc = "openpilot要求在安装角度左右4°以内，上下5以内° .openpilot持续校准，很少需要重置.";
   ButtonControl *resetCalibBtn = new ButtonControl("重置校准", "开始重置", resetCalibDesc, [=]() {
     if (ConfirmationDialog::confirm("确定重置校准?", this)) {
       Params().remove("CalibrationParams");
@@ -292,9 +292,9 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         if (calib.getCalStatus() != 0) {
           double pitch = calib.getRpyCalib()[1] * (180 / M_PI);
           double yaw = calib.getRpyCalib()[2] * (180 / M_PI);
-          desc += QString(" Your device is pointed %1° %2 and %3° %4.")
-                                .arg(QString::number(std::abs(pitch), 'g', 1), pitch > 0 ? "up" : "down",
-                                     QString::number(std::abs(yaw), 'g', 1), yaw > 0 ? "right" : "left");
+          desc += QString(" 当前安装角度 %1° %2 and %3° %4.")
+                                .arg(QString::number(std::abs(pitch), 'g', 1), pitch > 0 ? "上" : "下",
+                                     QString::number(std::abs(yaw), 'g', 1), yaw > 0 ? "右" : "左");
         }
       } catch (kj::Exception) {
         qInfo() << "invalid CalibrationParams";

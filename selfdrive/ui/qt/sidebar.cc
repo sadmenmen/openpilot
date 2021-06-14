@@ -59,7 +59,7 @@ void Sidebar::updateState(const UIState &s) {
 
   auto last_ping = deviceState.getLastAthenaPingTime();
   if (last_ping == 0) {
-    setProperty("connectStr", "OFFLINE");
+    setProperty("connectStr", "已连接");
     setProperty("connectStatus", warning_color);
   } else {
     bool online = nanos_since_boot() - last_ping < 80e9;
