@@ -55,12 +55,12 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   this));
   toggles.append(new ParamControl("IsRHD",
                                   "启用右驾模式",
-                                  "Allow openpilot to obey left-hand traffic conventions and perform driver monitoring on right driver seat.",
+                                  "允许openpilot遵守左侧交通惯例，并在右侧驾驶员座椅上执行驾驶员监控.",
                                   "../assets/offroad/icon_openpilot_mirrored.png",
                                   this));
   toggles.append(new ParamControl("IsMetric",
                                   "使用公制单位",
-                                  "Display speed in km/h instead of mp/h.",
+                                  "以km/h代替mp/h显示速度.",
                                   "../assets/offroad/icon_metric.png",
                                   this));
   toggles.append(new ParamControl("CommunityFeaturesToggle",
@@ -71,13 +71,13 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
 
   toggles.append(new ParamControl("UploadRaw",
                                   "Upload Raw Logs",
-                                  "Upload full logs and full resolution video by default while on WiFi. If not enabled, individual logs can be marked for upload at my.comma.ai/useradmin.",
+                                  "默认情况下，在WiFi上上载完整日志和完整分辨率视频。如果未启用，则可以在my.comma.ai/useradmin处标记个别日志以供上载.",
                                   "../assets/offroad/icon_network.png",
                                   this));
 
   ParamControl *record_toggle = new ParamControl("RecordFront",
                                                  "Record and Upload Driver Camera",
-                                                "Upload data from the driver facing camera and help improve the driver monitoring algorithm.",
+                                                "U从面向驾驶员的摄像头上传数据，帮助改进驾驶员监控算法.",
                                                 "../assets/offroad/icon_monitoring.png",
                                                 this);
   toggles.append(record_toggle);
@@ -271,11 +271,11 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   // offroad-only buttons
   QList<ButtonControl*> offroad_btns;
 
-  offroad_btns.append(new ButtonControl("前置摄像头", "预览画面",
-                                        "Preview the driver facing camera to help optimize device mounting position for best driver monitoring experience. (vehicle must be off)",
+  offroad_btns.append(new ButtonControl("前置摄像头", "预览",
+                                        "查看面向驾驶员的摄像头，以帮助优化设备安装位置，获得最佳的驾驶员监控体验(车辆必须关闭）",
                                         [=]() { emit showDriverView(); }, "", this));
 
-  QString resetCalibDesc = "openpilot要求在安装角度左右4°以内，上下5以内° .openpilot持续校准，很少需要重置.";
+  QString resetCalibDesc = "openpilot要求在安装角度左右4°以内，上下5°以内 .openpilot持续校准，很少需要重置.";
   ButtonControl *resetCalibBtn = new ButtonControl("重置校准", "开始重置", resetCalibDesc, [=]() {
     if (ConfirmationDialog::confirm("确定重置校准?", this)) {
       Params().remove("CalibrationParams");
@@ -304,8 +304,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
   offroad_btns.append(resetCalibBtn);
 
-  offroad_btns.append(new ButtonControl("复习训练课程", "开始复习",
-                                        "Review the rules, features, and limitations of openpilot", [=]() {
+  offroad_btns.append(new ButtonControl("训练课程", "开始",
+                                        "回顾openpilot的规则、特性和限制", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to review the training guide?", this)) {
       Params().remove("CompletedTrainingVersion");
       emit reviewTrainingGuide();
