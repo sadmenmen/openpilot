@@ -1,8 +1,6 @@
-#include "settings.h"
+#include "selfdrive/ui/qt/offroad/settings.h"
 
 #include <cassert>
-#include <iostream>
-#include <sstream>
 #include <string>
 
 #ifndef QCOM
@@ -18,6 +16,7 @@
 #include "selfdrive/ui/qt/widgets/ssh_keys.h"
 #include "selfdrive/ui/qt/widgets/toggle.h"
 #include "selfdrive/ui/ui.h"
+#include "selfdrive/ui/qt/util.h"
 
 TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
   QVBoxLayout *toggles_list = new QVBoxLayout();
@@ -25,77 +24,79 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
   QList<ParamControl*> toggles;
 
   toggles.append(new ParamControl("OpenpilotEnabledToggle",
-                                  "启用 openpilot",
-                                  "使用openpilot系统进行自适应巡航控制和车道保持驾驶员辅助。要使用此功能，您需要随时注意.",
+                                  "Enable openpilot",
+                                  "Use the openpilot system for adaptive cruise control and lane keep driver assistance. Your attention is required at all times to use this feature. Changing this setting takes effect when the car is powered off.",
                                   "../assets/offroad/icon_openpilot.png",
                                   this));
   toggles.append(new ParamControl("IsLdwEnabled",
-                                  "启用车道偏离警告",
-                                  "当时速超过50km每小时，车辆压线就会发出报警提示",
+                                  "Enable Lane Departure Warnings",
+                                  "Receive alerts to steer back into the lane when your vehicle drifts over a detected lane line without a turn signal activated while driving over 31mph (50kph).",
                                   "../assets/offroad/icon_warning.png",
                                   this));
-  toggles.append(new ParamControl("GasPressNoquit",
+                                    toggles.append(new ParamControl("GasPressNoquit",
                                   "踩油门不退出OP",
                                   "踩油门op也能继续控制转向",
                                   "../assets/offroad/icon_gas.png",
                                   this));
   toggles.append(new ParamControl("Temp_alart",
-                                  "关闭高温警告",
+                                  "关闭高温告警",
                                   "忽略温度告警，请注意温度,谨慎驾驶!",
                                   "../assets/offroad/temp.png",
                                   this));
   toggles.append(new ParamControl("Driverlook",
                                   "关闭驾驶员监控提醒",
-                                  "请专心驾驶！！！",
+                                  "请专心驾驶！！",
                                   "../assets/offroad/icon_driver.png",
                                   this));
-  //toggles.append(new ParamControl("Turn_Lamp",
-                                 // "打转向灯取消控制",
-                                 // "打转向灯之后暂时取消op对方向盘的控制，但是这样就不能自动变道啦！",
-                                 // "../assets/offroad/icon_Turn_Lamp.png",
-                                 // this));
+  toggles.append(new ParamControl("Turn_Lamp",
+                                  "打转向灯取消控制",
+                                  "打转向灯之后暂时取消op对方向盘的控制，但是这样就不能自动变道啦！",
+                                  "../assets/offroad/icon_Turn_Lamp.png",
+                                  this));
   toggles.append(new ParamControl("IsRHD",
-                                  "启用右驾模式",
-                                  "我们都在左驾",
+                                  "Enable Right-Hand Drive",
+                                  "Allow openpilot to obey left-hand traffic conventions and perform driver monitoring on right driver seat.",
                                   "../assets/offroad/icon_openpilot_mirrored.png",
                                   this));
   toggles.append(new ParamControl("IsMetric",
-                                  "公制单位",
-                                  "显示速度用km/h",
+                                  "Use Metric System",
+                                  "Display speed in km/h instead of mp/h.",
                                   "../assets/offroad/icon_metric.png",
                                   this));
   toggles.append(new ParamControl("CommunityFeaturesToggle",
-                                  "打开社区功能",
-                                  "好像没多大用，建议开开",
+                                  "Enable Community Features",
+                                  "Use features from the open source community that are not maintained or supported by comma.ai and have not been confirmed to meet the standard safety model. These features include community supported cars and community supported hardware. Be extra cautious when using these features",
                                   "../assets/offroad/icon_shell.png",
                                   this));
 
-  if (!Hardware::TICI()) {
-    toggles.append(new ParamControl("IsUploadRawEnabled",
-                                    "上传 Raw Logs",
-                                    "暂时不知道有什么用，但需要联网才能上传",
-                                    "../assets/offroad/icon_network.png",
-                                    this));
-  }
+  toggles.append(new ParamControl("UploadRaw",
+                                  "Upload Raw Logs",
+                                  "Upload full logs and full resolution video by default while on WiFi. If not enabled, individual logs can be marked for upload at my.comma.ai/useradmin.",
+                                  "../assets/offroad/icon_network.png",
+                                  this));
 
   ParamControl *record_toggle = new ParamControl("RecordFront",
-                                                 "行车记录",
-                                                "记录你的驾驶行为，通过前置摄像头",
+                                                 "Record and Upload Driver Camera",
+                                                "Upload data from the driver facing camera and help improve the driver monitoring algorithm.",
                                                 "../assets/offroad/icon_monitoring.png",
                                                 this);
   toggles.append(record_toggle);
   toggles.append(new ParamControl("EndToEndToggle",
-                                   "\U0001f96c 忽略车道线 (Alpha) \U0001f96c",
-                                   "用这个模式，op就不再完全依赖车道线了",
+                                   "\U0001f96c Disable use of lanelines (Alpha) \U0001f96c",
+                                   "In this mode openpilot will ignore lanelines and just drive how it thinks a human would.",
                                    "../assets/offroad/icon_road.png",
                                    this));
 
   if (Hardware::TICI()) {
     toggles.append(new ParamControl("EnableWideCamera",
-                                    "启用广角相机",
-                                    "Use wide angle camera for driving and ui. Only takes effect after reboot.",
+                                    "Enable use of Wide Angle Camera",
+                                    "Use wide angle camera for driving and ui.",
                                     "../assets/offroad/icon_openpilot.png",
                                     this));
+    QObject::connect(toggles.back(), &ToggleControl::toggleFlipped, [=](bool state) {
+      Params().remove("CalibrationParams");
+    });
+
     toggles.append(new ParamControl("EnableLteOnroad",
                                     "Enable LTE while onroad",
                                     "",
@@ -115,6 +116,7 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
 
   setLayout(toggles_list);
 }
+
 void ACCORD_2018_15T()
 {
 	FILE *file = fopen("car_model_test.txt", "w");
@@ -122,7 +124,7 @@ void ACCORD_2018_15T()
     {
         printf("open error!\n");
     }
-    char name[] = "HONDA ACCORD 1.5T 2018";
+    char name[] = "HONDA ACCORD 2018";
     fputs(name, file);
     fclose(file);
 }
@@ -168,7 +170,7 @@ void Civc_2016_TOURING()
     {
         printf("open error!\n");
     }
-    char name[] = "HONDA CIVIC 2016 TOURING";
+    char name[] = "HONDA CIVIC 2016";
     fputs(name, file);
     fclose(file);
 }
@@ -197,9 +199,66 @@ void HONDA_CRV_2019_HYBRID()
     fclose(file);
 }
 
+void AUDI_A3_MK3()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "AUDI A3 3RD GEN";
+    fputs(name, file);
+    fclose(file);
+}
+
+void COROLLAH_TSS2()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA COROLLA HYBRID TSS2 2019";
+    fputs(name, file);
+    fclose(file);
+}
+void COROLLA_TSS2()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA COROLLA TSS2 2019";
+    fputs(name, file);
+    fclose(file);
+}
+void CAMRY_2018()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA CAMRY 2018";
+    fputs(name, file);
+    fclose(file);
+}
+
+void HIGHLANDERH_2018()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA HIGHLANDER HYBRID 2018";
+    fputs(name, file);
+    fclose(file);
+}
+
 DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QVBoxLayout *device_layout = new QVBoxLayout;
-
   Params params = Params();
 
   QString dongle = QString::fromStdString(params.get("DongleId", false));
@@ -212,16 +271,13 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   // offroad-only buttons
   QList<ButtonControl*> offroad_btns;
 
-  offroad_btns.append(new ButtonControl("前置相机", "预览",
-                                        "看看前置相机的画面预览，停车了才能用",
-                                        [=]() {
-                                           Params().putBool("IsDriverViewEnabled", true);
-                                           QUIState::ui_state.scene.driver_view = true;
-                                        }, "", this));
+  offroad_btns.append(new ButtonControl("Driver Camera", "PREVIEW",
+                                        "Preview the driver facing camera to help optimize device mounting position for best driver monitoring experience. (vehicle must be off)",
+                                        [=]() { emit showDriverView(); }, "", this));
 
-  QString resetCalibDesc = "openpilot要求在4°以内左右，5°以内 向上或向下。openpilot持续校准，很少需要重置.";
-  ButtonControl *resetCalibBtn = new ButtonControl("重新较准", "重置", resetCalibDesc, [=]() {
-    if (ConfirmationDialog::confirm("确定要重新校准?", this)) {
+  QString resetCalibDesc = "openpilot requires the device to be mounted within 4° left or right and within 5° up or down. openpilot is continuously calibrating, resetting is rarely required.";
+  ButtonControl *resetCalibBtn = new ButtonControl("Reset Calibration", "RESET", resetCalibDesc, [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to reset calibration?", this)) {
       Params().remove("CalibrationParams");
     }
   }, "", this);
@@ -248,7 +304,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
   offroad_btns.append(resetCalibBtn);
 
-  offroad_btns.append(new ButtonControl("学习指南", "预览",
+  offroad_btns.append(new ButtonControl("Review Training Guide", "REVIEW",
                                         "Review the rules, features, and limitations of openpilot", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to review the training guide?", this)) {
       Params().remove("CompletedTrainingVersion");
@@ -257,8 +313,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }, "", this));
 
   QString brand = params.getBool("Passive") ? "dashcam" : "openpilot";
-  offroad_btns.append(new ButtonControl("卸载 " + brand, "卸载", "", [=]() {
-    if (ConfirmationDialog::confirm("确定卸载?", this)) {
+  offroad_btns.append(new ButtonControl("Uninstall " + brand, "UNINSTALL", "", [=]() {
+    if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
       Params().putBool("DoUninstall", true);
     }
   }, "", this));
@@ -274,26 +330,41 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QPushButton *mybtn=new QPushButton("车型选择");
   QMenu *mymenu=new QMenu;
   QAction *pAct1 = new QAction("HONDA ACCORD 2018 LX 1.5T", this);
-  QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
-  QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
-  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
-  QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
-  QAction *pAct6 = new QAction("HONDA ACCORD HYBRID 2018", this);
-  QAction *pAct7 = new QAction("HONDA_CRV_2019_HYBRID", this);
   connect(pAct1, &QAction::triggered, this, &ACCORD_2018_15T);
-  connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
-  connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
-  connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
-  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
-  connect(pAct6, &QAction::triggered, this, &ACCORD_2018_HYBRID);
-  connect(pAct7, &QAction::triggered, this, &HONDA_CRV_2019_HYBRID);
   mymenu->addAction(pAct1);
+  QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
+  connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
   mymenu->addAction(pAct2);
+  QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
+  connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
   mymenu->addAction(pAct3);
-  mymenu->addAction(pAct4);
+  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
+  connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
+	mymenu->addAction(pAct4);
+  QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
+  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
   mymenu->addAction(pAct5);
+  QAction *pAct6 = new QAction("HONDA ACCORD HYBRID 2018", this);
+  connect(pAct6, &QAction::triggered, this, &ACCORD_2018_HYBRID);
   mymenu->addAction(pAct6);
+  QAction *pAct7 = new QAction("HONDA_CRV_2019_HYBRID", this);
+  connect(pAct7, &QAction::triggered, this, &HONDA_CRV_2019_HYBRID);
   mymenu->addAction(pAct7);
+  QAction *pAct8 = new QAction("AUDI A3 3RD GEN", this);
+  connect(pAct8, &QAction::triggered, this, &AUDI_A3_MK3);
+  mymenu->addAction(pAct8);
+  QAction *pAct9 = new QAction("TOYOTA COROLLA HYBRID TSS2 2019", this);
+  connect(pAct9, &QAction::triggered, this, &COROLLAH_TSS2);
+  mymenu->addAction(pAct9);
+  QAction *pAct10 = new QAction("TOYOTA CAMRY 2018", this);
+  connect(pAct10, &QAction::triggered, this, &CAMRY_2018);
+  mymenu->addAction(pAct10);
+  QAction *pAct11 = new QAction("TOYOTA HIGHLANDER HYBRID 2018", this);
+  connect(pAct11, &QAction::triggered, this, &HIGHLANDERH_2018);
+  mymenu->addAction(pAct11);
+  QAction *pAct12 = new QAction("TOYOTA COROLLA TSS2 2019", this);
+  connect(pAct12, &QAction::triggered, this, &COROLLA_TSS2);
+  mymenu->addAction(pAct12);
   mybtn->setMenu(mymenu);
   car_Layout->addWidget(mybtn);
   device_layout->addLayout(car_Layout);
@@ -302,19 +373,19 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QHBoxLayout *power_layout = new QHBoxLayout();
   power_layout->setSpacing(30);
 
-  QPushButton *reboot_btn = new QPushButton("重启");
+  QPushButton *reboot_btn = new QPushButton("Reboot");
   power_layout->addWidget(reboot_btn);
   QObject::connect(reboot_btn, &QPushButton::released, [=]() {
-    if (ConfirmationDialog::confirm("确定重启?", this)) {
+    if (ConfirmationDialog::confirm("Are you sure you want to reboot?", this)) {
       Hardware::reboot();
     }
   });
 
-  QPushButton *poweroff_btn = new QPushButton("关机");
+  QPushButton *poweroff_btn = new QPushButton("Power Off");
   poweroff_btn->setStyleSheet("background-color: #E22C2C;");
   power_layout->addWidget(poweroff_btn);
   QObject::connect(poweroff_btn, &QPushButton::released, [=]() {
-    if (ConfirmationDialog::confirm("确定关机?", this)) {
+    if (ConfirmationDialog::confirm("Are you sure you want to power off?", this)) {
       Hardware::poweroff();
     }
   });
@@ -332,22 +403,74 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   )");
 }
 
-DeveloperPanel::DeveloperPanel(QWidget* parent) : QFrame(parent) {
+SoftwarePanel::SoftwarePanel(QWidget* parent) : QFrame(parent) {
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   setLayout(main_layout);
   setStyleSheet(R"(QLabel {font-size: 50px;})");
+
+  fs_watch = new QFileSystemWatcher(this);
+  QObject::connect(fs_watch, &QFileSystemWatcher::fileChanged, [=](const QString path) {
+    int update_failed_count = Params().get<int>("UpdateFailedCount").value_or(0);
+    if (path.contains("UpdateFailedCount") && update_failed_count > 0) {
+      lastUpdateTimeLbl->setText("failed to fetch update");
+      updateButton->setText("CHECK");
+      updateButton->setEnabled(true);
+    } else if (path.contains("LastUpdateTime")) {
+      updateLabels();
+    }
+  });
 }
 
-void DeveloperPanel::showEvent(QShowEvent *event) {
+void SoftwarePanel::showEvent(QShowEvent *event) {
+  updateLabels();
+}
+
+void SoftwarePanel::updateLabels() {
   Params params = Params();
   std::string brand = params.getBool("Passive") ? "dashcam" : "openpilot";
   QList<QPair<QString, std::string>> dev_params = {
-    {"版本", brand + " v" + params.get("Version", false).substr(0, 14)},
-    {"Git分支", params.get("GitBranch", false)},
-    {"Git Commit", params.get("GitCommit", false).substr(0, 10)},
-    {"Panda固件", params.get("PandaFirmwareHex", false)},
-    {"系统版本", Hardware::get_os_version()},
+    {"Git Branch", params.get("GitBranch")},
+    {"Git Commit", params.get("GitCommit").substr(0, 10)},
+    {"Panda Firmware", params.get("PandaFirmwareHex")},
+    {"OS Version", Hardware::get_os_version()},
   };
+
+  QString version = QString::fromStdString(brand + " v" + params.get("Version").substr(0, 14)).trimmed();
+  QString lastUpdateTime = "";
+
+  std::string last_update_param = params.get("LastUpdateTime");
+  if (!last_update_param.empty()){
+    QDateTime lastUpdateDate = QDateTime::fromString(QString::fromStdString(last_update_param + "Z"), Qt::ISODate);
+    lastUpdateTime = timeAgo(lastUpdateDate);
+  }
+
+  if (labels.size() < dev_params.size()) {
+    versionLbl = new LabelControl("Version", version, QString::fromStdString(params.get("ReleaseNotes")).trimmed());
+    layout()->addWidget(versionLbl);
+    layout()->addWidget(horizontal_line());
+
+    lastUpdateTimeLbl = new LabelControl("Last Update Check", lastUpdateTime, "The last time openpilot successfully checked for an update. The updater only runs while the car is off.");
+    layout()->addWidget(lastUpdateTimeLbl);
+    layout()->addWidget(horizontal_line());
+
+    updateButton = new ButtonControl("Check for Update", "CHECK", "", [=]() {
+      Params params = Params();
+      if (params.getBool("IsOffroad")) {
+        fs_watch->addPath(QString::fromStdString(params.getParamsPath()) + "/d/LastUpdateTime");
+        fs_watch->addPath(QString::fromStdString(params.getParamsPath()) + "/d/UpdateFailedCount");
+        updateButton->setText("CHECKING");
+        updateButton->setEnabled(false);
+      }
+      std::system("pkill -1 -f selfdrive.updated");
+    }, "", this);
+    layout()->addWidget(updateButton);
+    layout()->addWidget(horizontal_line());
+  } else {
+    versionLbl->setText(version);
+    lastUpdateTimeLbl->setText(lastUpdateTime);
+    updateButton->setText("CHECK");
+    updateButton->setEnabled(true);
+  }
 
   for (int i = 0; i < dev_params.size(); i++) {
     const auto &[name, value] = dev_params[i];
@@ -370,11 +493,11 @@ QWidget * network_panel(QWidget * parent) {
   layout->setSpacing(30);
 
   // wifi + tethering buttons
-  layout->addWidget(new ButtonControl("WiFi 设置", "打开", "",
+  layout->addWidget(new ButtonControl("WiFi Settings", "OPEN", "",
                                       [=]() { HardwareEon::launch_wifi(); }));
   layout->addWidget(horizontal_line());
 
-  layout->addWidget(new ButtonControl("热点设置", "打开", "",
+  layout->addWidget(new ButtonControl("Tethering Settings", "OPEN", "",
                                       [=]() { HardwareEon::launch_tethering(); }));
   layout->addWidget(horizontal_line());
 
@@ -385,7 +508,7 @@ QWidget * network_panel(QWidget * parent) {
 
   layout->addStretch(1);
 
-  QWidget *w = new QWidget;
+  QWidget *w = new QWidget(parent);
   w->setLayout(layout);
 #else
   Networking *w = new Networking(parent);
@@ -399,6 +522,9 @@ void SettingsWindow::showEvent(QShowEvent *event) {
     nav_btns->buttons()[0]->setChecked(true);
     return;
   }
+}
+
+SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
 
   // setup two main layouts
   QVBoxLayout *sidebar_layout = new QVBoxLayout();
@@ -426,12 +552,13 @@ void SettingsWindow::showEvent(QShowEvent *event) {
   // setup panels
   DevicePanel *device = new DevicePanel(this);
   QObject::connect(device, &DevicePanel::reviewTrainingGuide, this, &SettingsWindow::reviewTrainingGuide);
+  QObject::connect(device, &DevicePanel::showDriverView, this, &SettingsWindow::showDriverView);
 
   QPair<QString, QWidget *> panels[] = {
-    {"设备", device},
-    {"网络", network_panel(this)},
-    {"个性化", new TogglesPanel(this)},
-    {"开发者", new DeveloperPanel()},
+    {"Device", device},
+    {"Network", network_panel(this)},
+    {"Toggles", new TogglesPanel(this)},
+    {"Software", new SoftwarePanel(this)},
   };
 
   sidebar_layout->addSpacing(45);

@@ -1,17 +1,15 @@
 #include "selfdrive/camerad/cameras/camera_qcom.h"
 
-#include <assert.h>
 #include <fcntl.h>
-#include <math.h>
 #include <poll.h>
-#include <pthread.h>
-#include <stdbool.h>
-#include <stdio.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
 #include <algorithm>
 #include <atomic>
+#include <cassert>
+#include <cmath>
+#include <cstdio>
 
 #include <cutils/properties.h>
 #include <linux/media.h>

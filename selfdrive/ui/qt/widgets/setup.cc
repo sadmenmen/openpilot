@@ -1,4 +1,4 @@
-#include "setup.h"
+#include "selfdrive/ui/qt/widgets/setup.h"
 
 #include <QDebug>
 #include <QJsonDocument>
@@ -48,7 +48,7 @@ void PairingQRWidget::refresh(){
   this->updateQrCode(qrString);
 }
 
-void PairingQRWidget::updateQrCode(QString text) {
+void PairingQRWidget::updateQrCode(const QString &text) {
   QrCode qr = QrCode::encodeText(text.toUtf8().data(), QrCode::Ecc::LOW);
   qint32 sz = qr.getSize();
   // make the image larger so we can have a white border
@@ -138,7 +138,7 @@ PrimeAdWidget::PrimeAdWidget(QWidget* parent) : QWidget(parent) {
 
   vlayout->addWidget(new QLabel("Upgrade now"), 1, Qt::AlignTop);
 
-  QLabel* description = new QLabel("Become a comma prime member in the comma connect app and get premium features!");
+  QLabel* description = new QLabel("Become a comma prime member at my.comma.ai and get premium features!");
   description->setStyleSheet(R"(
     font-size: 50px;
     color: #b8b8b8;
@@ -165,7 +165,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   QVBoxLayout* finishRegistationLayout = new QVBoxLayout;
   finishRegistationLayout->setMargin(30);
 
-  QLabel* registrationDescription = new QLabel("与COMMMA APP 配对你的设备");
+  QLabel* registrationDescription = new QLabel("Pair your device with the comma connect app");
   registrationDescription->setWordWrap(true);
   registrationDescription->setAlignment(Qt::AlignCenter);
   registrationDescription->setStyleSheet(R"(
@@ -175,7 +175,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
 
   finishRegistationLayout->addWidget(registrationDescription);
 
-  QPushButton* finishButton = new QPushButton("开始");
+  QPushButton* finishButton = new QPushButton("Finish setup");
   finishButton->setFixedHeight(200);
   finishButton->setStyleSheet(R"(
     border-radius: 30px;

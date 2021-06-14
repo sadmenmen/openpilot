@@ -1,9 +1,13 @@
 from cereal import car
 from selfdrive.car import apply_std_steer_torque_limits
 from selfdrive.car.volkswagen import volkswagencan
-from selfdrive.car.volkswagen.values import DBC, CANBUS, NetworkLocation, MQB_LDW_MESSAGES, BUTTON_STATES, CarControllerParams
+from selfdrive.car.volkswagen.values import DBC, CANBUS, MQB_LDW_MESSAGES, BUTTON_STATES, CarControllerParams
 from opendbc.can.packer import CANPacker
+from common.params import Params
+params = Params()
+Turn_Lamp_info = params.get_bool('Turn_Lamp')
 
+VisualAlert = car.CarControl.HUDControl.VisualAlert
 
 class CarController():
   def __init__(self, dbc_name, CP, VM):
@@ -17,11 +21,9 @@ class CarController():
     self.graMsgSentCount = 0
     self.graMsgStartFramePrev = 0
     self.graMsgBusCounterPrev = 0
-
-    if CP.networkLocation == NetworkLocation.fwdCamera:
-      self.ext_can = CANBUS.pt
-    else:
-      self.ext_can = CANBUS.cam
+    # dp
+    self.last_blinker_on = False
+    self.blinker_end_frame = 0.
 
     self.steer_rate_limited = False
 
@@ -98,6 +100,14 @@ class CarController():
         # Continue sending HCA_01 messages, with the enable flags turned off.
         hcaEnabled = False
         apply_steer = 0
+      # dp
+      if Turn_Lamp_info:
+        blinker_on = CS.out.leftBlinker or CS.out.rightBlinker
+        if self.last_blinker_on and not blinker_on:
+          self.blinker_end_frame = frame
+        if blinker_on:
+          apply_steer = 0 if isinstance(apply_steer, int) else False
+        self.last_blinker_on = blinker_on
 
       self.apply_steer_last = apply_steer
       idx = (frame / P.HCA_STEP) % 16
@@ -115,7 +125,7 @@ class CarController():
     # filters LDW_02 from the factory camera and OP emits LDW_02 at 10Hz.
 
     if frame % P.LDW_STEP == 0:
-      if visual_alert == car.CarControl.HUDControl.VisualAlert.steerRequired:
+      if visual_alert in [VisualAlert.steerRequired, VisualAlert.ldw]:
         hud_alert = MQB_LDW_MESSAGES["laneAssistTakeOverSilent"]
       else:
         hud_alert = MQB_LDW_MESSAGES["none"]
@@ -183,7 +193,7 @@ class CarController():
         if self.graMsgSentCount == 0:
           self.graMsgStartFramePrev = frame
         idx = (CS.graMsgBusCounter + 1) % 16
-        can_sends.append(volkswagencan.create_mqb_acc_buttons_control(self.packer_pt, self.ext_can, self.graButtonStatesToSend, CS, idx))
+        can_sends.append(volkswagencan.create_mqb_acc_buttons_control(self.packer_pt, CANBUS.pt, self.graButtonStatesToSend, CS, idx))
         self.graMsgSentCount += 1
         if self.graMsgSentCount >= P.GRA_VBP_COUNT:
           self.graButtonStatesToSend = None

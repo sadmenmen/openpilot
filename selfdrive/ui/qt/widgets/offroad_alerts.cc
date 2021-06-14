@@ -1,4 +1,4 @@
-#include "offroad_alerts.h"
+#include "selfdrive/ui/qt/widgets/offroad_alerts.h"
 
 #include <QHBoxLayout>
 #include <QJsonDocument>
@@ -17,7 +17,6 @@ OffroadAlert::OffroadAlert(QWidget* parent) : QFrame(parent) {
   alerts_layout = new QVBoxLayout;
   alerts_layout->setMargin(0);
   alerts_layout->setSpacing(30);
-  alerts_layout->addStretch(1);
   alerts_widget->setLayout(alerts_layout);
   alerts_widget->setStyleSheet("background-color: transparent;");
 
@@ -37,12 +36,12 @@ OffroadAlert::OffroadAlert(QWidget* parent) : QFrame(parent) {
   QHBoxLayout *footer_layout = new QHBoxLayout();
   layout->addLayout(footer_layout);
 
-  QPushButton *dismiss_btn = new QPushButton("忽略");
+  QPushButton *dismiss_btn = new QPushButton("Dismiss");
   dismiss_btn->setFixedSize(400, 125);
   footer_layout->addWidget(dismiss_btn, 0, Qt::AlignBottom | Qt::AlignLeft);
   QObject::connect(dismiss_btn, &QPushButton::released, this, &OffroadAlert::closeAlerts);
 
-  rebootBtn.setText("重启更新");
+  rebootBtn.setText("Reboot and Update");
   rebootBtn.setFixedSize(600, 125);
   rebootBtn.setVisible(false);
   footer_layout->addWidget(&rebootBtn, 0, Qt::AlignBottom | Qt::AlignRight);

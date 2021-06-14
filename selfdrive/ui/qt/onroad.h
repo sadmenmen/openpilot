@@ -60,12 +60,13 @@ class NvgWindow : public QOpenGLWidget, protected QOpenGLFunctions {
 
 public:
   using QOpenGLWidget::QOpenGLWidget;
-  explicit NvgWindow(QWidget* parent = 0) : QOpenGLWidget(parent) {};
+  explicit NvgWindow(QWidget* parent = 0);
   ~NvgWindow();
 
 protected:
   void paintGL() override;
   void initializeGL() override;
+  void resizeGL(int w, int h) override;
 
 private:
   double prev_draw_t = 0;
@@ -80,13 +81,18 @@ class OnroadWindow : public QWidget {
 
 public:
   OnroadWindow(QWidget* parent = 0);
+  QWidget *map = nullptr;
 
 private:
   OnroadAlerts *alerts;
   NvgWindow *nvg;
   QStackedLayout *layout;
+  QHBoxLayout* split;
 
 signals:
   void update(const UIState &s);
+  void offroadTransitionSignal(bool offroad);
+
+private slots:
   void offroadTransition(bool offroad);
 };

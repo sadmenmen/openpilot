@@ -11,11 +11,15 @@ from selfdrive.controls.lib.drive_helpers import V_CRUISE_MAX
 from selfdrive.controls.lib.events import Events
 from selfdrive.controls.lib.vehicle_model import VehicleModel
 from common.params import Params
-GearShifter = car.CarState.GearShifter
-EventName = car.CarEvent.EventName
-MAX_CTRL_SPEED = (V_CRUISE_MAX + 4) * CV.KPH_TO_MS  # 135 + 4 = 86 mph
 params = Params()
 gas_info = params.get_bool('GasPressNoquit')
+GearShifter = car.CarState.GearShifter
+EventName = car.CarEvent.EventName
+
+# WARNING: this value was determined based on the model's training distribution,
+#          model predictions above this speed can be unpredictable
+MAX_CTRL_SPEED = (V_CRUISE_MAX + 4) * CV.KPH_TO_MS  # 135 + 4 = 86 mph
+
 # generic car and radar interfaces
 
 

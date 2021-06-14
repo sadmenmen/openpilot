@@ -10,8 +10,11 @@ from common.params import Params
 from common.spinner import Spinner
 from common.file_helpers import mkdirs_exists_ok
 from common.basedir import PERSIST
-from selfdrive.hardware import HARDWARE, PC
+from selfdrive.controls.lib.alertmanager import set_offroad_alert
+from selfdrive.hardware import HARDWARE
 from selfdrive.swaglog import cloudlog
+
+UNREGISTERED_DONGLE_ID = "UnregisteredDevice"
 
 
 def register(show_spinner=False) -> str:
@@ -58,6 +61,7 @@ def register(show_spinner=False) -> str:
         serial = HARDWARE.get_serial()
         params.put("IMEI", imei1)
         params.put("HardwareSerial", serial)
+
         backoff = 0
         import requests, json
         while True:

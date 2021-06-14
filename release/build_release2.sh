@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-export GIT_COMMITTER_NAME="sadmenmen"
-export GIT_COMMITTER_EMAIL="user@sadmenmen"
-export GIT_AUTHOR_NAME="sadmenmen"
-export GIT_AUTHOR_EMAIL="user@sadmenmen"
+export GIT_COMMITTER_NAME="Vehicle Researcher"
+export GIT_COMMITTER_EMAIL="user@comma.ai"
+export GIT_AUTHOR_NAME="Vehicle Researcher"
+export GIT_AUTHOR_EMAIL="user@comma.ai"
 
 export GIT_SSH_COMMAND="ssh -i /data/gitkey"
 
@@ -49,7 +49,7 @@ popd
 # Build stuff
 ln -sfn /data/openpilot /data/pythonpath
 export PYTHONPATH="/data/openpilot:/data/openpilot/pyextra"
-SCONS_CACHE=1 scons -j3
+scons -j3
 
 # Run tests
 python selfdrive/manager/test/test_manager.py

@@ -3,11 +3,11 @@
 #include <atomic>
 #include <map>
 #include <memory>
-#include <sstream>
 #include <string>
 
 #include <QObject>
 #include <QTimer>
+#include <QColor>
 
 #include "nanovg.h"
 
@@ -27,9 +27,14 @@
 #define COLOR_BLACK_ALPHA(x) nvgRGBA(0, 0, 0, x)
 #define COLOR_WHITE nvgRGBA(255, 255, 255, 255)
 #define COLOR_WHITE_ALPHA(x) nvgRGBA(255, 255, 255, x)
-#define COLOR_RED_ALPHA(x) nvgRGBA(127, 255, 0, x)
+#define COLOR_RED_ALPHA(x) nvgRGBA(201, 34, 49, x)
 #define COLOR_YELLOW nvgRGBA(218, 202, 37, 255)
-#define COLOR_RED nvgRGBA(127, 255, 0, 255)
+#define COLOR_RED nvgRGBA(201, 34, 49, 255)
+
+// TODO: this is also hardcoded in common/transformations/camera.py
+// TODO: choose based on frame input size
+const float y_offset = Hardware::TICI() ? 150.0 : 0.0;
+const float zoom = Hardware::TICI() ? 2912.8 : 2138.5;
 
 typedef struct Rect {
   int x, y, w, h;
@@ -42,7 +47,8 @@ typedef struct Rect {
   }
 } Rect;
 
-const int bdr_s = 30;
+const int bdr_s = 10;
+const int bdr_is = 30;
 const int header_h = 420;
 const int footer_h = 280;
 
@@ -55,11 +61,11 @@ typedef enum UIStatus {
   STATUS_ALERT,
 } UIStatus;
 
-static std::map<UIStatus, NVGcolor> bg_colors = {
-  {STATUS_DISENGAGED, nvgRGBA(0x17, 0x33, 0x49, 0xc8)},
-  {STATUS_ENGAGED, nvgRGBA(0x17, 0x86, 0x44, 0xf1)},
-  {STATUS_WARNING, nvgRGBA(0xDA, 0x6F, 0x25, 0xf1)},
-  {STATUS_ALERT, nvgRGBA(0xC9, 0x22, 0x31, 0xf1)},
+const QColor bg_colors [] = {
+  [STATUS_DISENGAGED] =  QColor(0x17, 0x33, 0x49, 0xc8),
+  [STATUS_ENGAGED] = QColor(0x17, 0x86, 0x44, 0xf1),
+  [STATUS_WARNING] = QColor(0xDA, 0x6F, 0x25, 0xf1),
+  [STATUS_ALERT] = QColor(0xC9, 0x22, 0x31, 0xf1),
 };
 
 typedef struct {
@@ -75,11 +81,22 @@ typedef struct UIScene {
 
   mat3 view_from_calib;
   bool world_objects_visible;
-
-  bool is_rhd;
-  bool driver_view;
-
+  int lead_status;
+  float lead_d_rel, lead_v_rel;
   cereal::PandaState::PandaType pandaType;
+  float angleSteers;
+  bool brakeLights;
+  float angleSteersDes;
+  bool recording;
+  float gpsAccuracyUblox;
+  float altitudeUblox;
+  int engineRPM;
+  bool steerOverride;
+  float output_scale;
+  float steeringTorqueEps;
+  float aEgo;
+  float cpuTemp;
+  int cpuPerc;
 
   cereal::DeviceState::Reader deviceState;
   cereal::RadarState::LeadData::Reader lead_data[2];
@@ -87,10 +104,9 @@ typedef struct UIScene {
   cereal::ControlsState::Reader controls_state;
   cereal::DriverState::Reader driver_state;
   cereal::DriverMonitoringState::Reader dmonitoring_state;
-
   // gps
   int satelliteCount;
-  bool gpsOK;
+  float gpsAccuracy;
 
   // modelV2
   float lane_line_probs[4];
@@ -98,6 +114,8 @@ typedef struct UIScene {
   line_vertices_data track_vertices;
   line_vertices_data lane_line_vertices[4];
   line_vertices_data road_edge_vertices[2];
+
+  bool dm_active, engageable;
 
   // lead
   vertex_data lead_vertices[2];
@@ -109,8 +127,8 @@ typedef struct UIScene {
 
 typedef struct UIState {
   VisionIpcClient * vipc_client;
-  VisionIpcClient * vipc_client_front;
   VisionIpcClient * vipc_client_rear;
+  VisionIpcClient * vipc_client_wide;
   VisionBuf * last_frame;
 
   // framebuffer
@@ -131,8 +149,8 @@ typedef struct UIState {
   std::unique_ptr<GLShader> gl_shader;
   std::unique_ptr<EGLImageTexture> texture[UI_BUF_COUNT];
 
-  GLuint frame_vao[2], frame_vbo[2], frame_ibo[2];
-  mat4 rear_frame_mat, front_frame_mat;
+  GLuint frame_vao, frame_vbo, frame_ibo;
+  mat4 rear_frame_mat;
 
   bool awake;
 
@@ -181,8 +199,6 @@ private:
   int awake_timeout = 0;
   float accel_prev = 0;
   float gyro_prev = 0;
-  float brightness_b = 0;
-  float brightness_m = 0;
   float last_brightness = 0;
   FirstOrderFilter brightness_filter;
 

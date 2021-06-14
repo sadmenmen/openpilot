@@ -1,10 +1,7 @@
 #pragma once
 
-#include <pthread.h>
-#include <stdbool.h>
-#include <stdint.h>
-
 #include <atomic>
+#include <cstdint>
 #include <memory>
 
 #include "cereal/messaging/messaging.h"
