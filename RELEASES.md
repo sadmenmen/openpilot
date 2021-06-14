@@ -1,24 +1,30 @@
-Version 0.8.4 (2021-06-10)
+Version 0.8.6 (2021-XX-XX)
 ========================
- * 一些奇奇怪怪的更新
 
-Version 0.8.4 (2021-05-30)
+Version 0.8.5 (2021-06-11)
 ========================
- * 网络没连上改为已连接
- 
-Version 0.8.4 (2021-05-27)
-========================
- * 同步大众分支更新
+ * NEOS update: improved reliability and stability with better voltage regulator configuration
+ * Smart model-based Forward Collision Warning
+ * CAN-based fingerprinting moved behind community features toggle
+ * Improved longitudinal control on Toyotas with a comma pedal
+ * Improved auto-brightness using road-facing camera
+ * Added "Software" settings page with updater controls
+ * Audi Q2 2018 support thanks to jyoung8607!
+ * Hyundai Elantra 2021 support thanks to CruiseBrantley!
+ * Lexus UX Hybrid 2019-2020 support thanks to brianhaugen2!
+ * Toyota Avalon Hybrid 2019 support thanks to jbates9011!
+ * SEAT Leon 2017 & 2020 support thanks to jyoung8607!
+ * Škoda Octavia 2015 & 2019 support thanks to jyoung8607!
 
- 
-Version 0.8.4 (2021-05-27)
+Version 0.8.4 (2021-05-17)
 ========================
  * Delay controls start until system is ready
  * Fuzzy car identification, enabled with Community Features toggle
- * Localizer optimized for significantly less CPU usage
+ * Localizer optimized for increased precision and less CPU usage
  * Retuned lateral control to be more aggressive when model is confident
  * Toyota Mirai 2021 support
  * Lexus NX 300 2020 support thanks to goesreallyfast!
+ * Volkswagen Atlas 2018-19 support thanks to jyoung8607!
 
 Version 0.8.3 (2021-04-01)
 ========================
