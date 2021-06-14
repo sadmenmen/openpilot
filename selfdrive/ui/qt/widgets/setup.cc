@@ -165,7 +165,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   QVBoxLayout* finishRegistationLayout = new QVBoxLayout;
   finishRegistationLayout->setMargin(30);
 
-  QLabel* registrationDescription = new QLabel("Pair your device with the comma connect app");
+  QLabel* registrationDescription = new QLabel("mr-one.cn\nmr-one.taobao.com");
   registrationDescription->setWordWrap(true);
   registrationDescription->setAlignment(Qt::AlignCenter);
   registrationDescription->setStyleSheet(R"(
@@ -175,7 +175,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
 
   finishRegistationLayout->addWidget(registrationDescription);
 
-  QPushButton* finishButton = new QPushButton("Finish setup");
+  QPushButton* finishButton = new QPushButton("扫一扫");
   finishButton->setFixedHeight(200);
   finishButton->setStyleSheet(R"(
     border-radius: 30px;
@@ -195,7 +195,7 @@ SetupWidget::SetupWidget(QWidget* parent) : QFrame(parent) {
   QVBoxLayout* qrLayout = new QVBoxLayout;
 
   qrLayout->addSpacing(30);
-  QLabel* qrLabel = new QLabel("Scan with comma connect!");
+  QLabel* qrLabel = new QLabel("扫一扫加微信!");
   qrLabel->setWordWrap(true);
   qrLabel->setAlignment(Qt::AlignHCenter);
   qrLabel->setStyleSheet(R"(
