@@ -247,7 +247,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.startup: {
     ET.PERMANENT: Alert(
       "请注意安全驾驶",
-      "保持手扶方向盘",
+      "手扶方向盘，注意路况",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -255,7 +255,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.startupMaster: {
     ET.PERMANENT: Alert(
       "请注意安全驾驶",
-      "保持手扶方向盘",
+      "手扶方向盘，注意路况",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -264,7 +264,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.startupNoControl: {
     ET.PERMANENT: Alert(
       "Dashcam mode",
-      "Always keep hands on wheel and eyes on road",
+      "手扶方向盘，注意路况",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -273,7 +273,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.startupNoCar: {
     ET.PERMANENT: Alert(
       "Dashcam mode for unsupported car",
-      "Always keep hands on wheel and eyes on road",
+      "手扶方向盘，注意路况",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
