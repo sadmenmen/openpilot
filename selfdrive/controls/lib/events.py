@@ -320,8 +320,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.communityFeatureDisallowed: {
     # LOW priority to overcome Cruise Error
     ET.PERMANENT: Alert(
-      "openpilot Not Available",
-      "Enable Community Features in Settings to Engage",
+      "openpilot暂不能用",
+      "请打开社区功能后重新启动设备",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
   },

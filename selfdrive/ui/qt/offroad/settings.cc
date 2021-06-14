@@ -271,13 +271,13 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   // offroad-only buttons
   QList<ButtonControl*> offroad_btns;
 
-  offroad_btns.append(new ButtonControl("Driver Camera", "PREVIEW",
+  offroad_btns.append(new ButtonControl("前置摄像头", "预览画面",
                                         "Preview the driver facing camera to help optimize device mounting position for best driver monitoring experience. (vehicle must be off)",
                                         [=]() { emit showDriverView(); }, "", this));
 
   QString resetCalibDesc = "openpilot requires the device to be mounted within 4° left or right and within 5° up or down. openpilot is continuously calibrating, resetting is rarely required.";
-  ButtonControl *resetCalibBtn = new ButtonControl("Reset Calibration", "RESET", resetCalibDesc, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to reset calibration?", this)) {
+  ButtonControl *resetCalibBtn = new ButtonControl("重置校准", "开始重置", resetCalibDesc, [=]() {
+    if (ConfirmationDialog::confirm("确定重置校准?", this)) {
       Params().remove("CalibrationParams");
     }
   }, "", this);
@@ -304,7 +304,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
   offroad_btns.append(resetCalibBtn);
 
-  offroad_btns.append(new ButtonControl("Review Training Guide", "REVIEW",
+  offroad_btns.append(new ButtonControl("复习训练课程", "开始复习",
                                         "Review the rules, features, and limitations of openpilot", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to review the training guide?", this)) {
       Params().remove("CompletedTrainingVersion");
@@ -313,7 +313,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }, "", this));
 
   QString brand = params.getBool("Passive") ? "dashcam" : "openpilot";
-  offroad_btns.append(new ButtonControl("Uninstall " + brand, "UNINSTALL", "", [=]() {
+  offroad_btns.append(new ButtonControl("卸载 " + brand, "卸载", "", [=]() {
     if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
       Params().putBool("DoUninstall", true);
     }
@@ -373,15 +373,15 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QHBoxLayout *power_layout = new QHBoxLayout();
   power_layout->setSpacing(30);
 
-  QPushButton *reboot_btn = new QPushButton("Reboot");
+  QPushButton *reboot_btn = new QPushButton("重启");
   power_layout->addWidget(reboot_btn);
   QObject::connect(reboot_btn, &QPushButton::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to reboot?", this)) {
+    if (ConfirmationDialog::confirm("确认重启?", this)) {
       Hardware::reboot();
     }
   });
 
-  QPushButton *poweroff_btn = new QPushButton("Power Off");
+  QPushButton *poweroff_btn = new QPushButton("关机");
   poweroff_btn->setStyleSheet("background-color: #E22C2C;");
   power_layout->addWidget(poweroff_btn);
   QObject::connect(poweroff_btn, &QPushButton::released, [=]() {
@@ -429,10 +429,10 @@ void SoftwarePanel::updateLabels() {
   Params params = Params();
   std::string brand = params.getBool("Passive") ? "dashcam" : "openpilot";
   QList<QPair<QString, std::string>> dev_params = {
-    {"Git Branch", params.get("GitBranch")},
+    {"分支", params.get("GitBranch")},
     {"Git Commit", params.get("GitCommit").substr(0, 10)},
-    {"Panda Firmware", params.get("PandaFirmwareHex")},
-    {"OS Version", Hardware::get_os_version()},
+    {"Panda版本", params.get("PandaFirmwareHex")},
+    {"OS版本", Hardware::get_os_version()},
   };
 
   QString version = QString::fromStdString(brand + " v" + params.get("Version").substr(0, 14)).trimmed();
@@ -449,11 +449,11 @@ void SoftwarePanel::updateLabels() {
     layout()->addWidget(versionLbl);
     layout()->addWidget(horizontal_line());
 
-    lastUpdateTimeLbl = new LabelControl("Last Update Check", lastUpdateTime, "The last time openpilot successfully checked for an update. The updater only runs while the car is off.");
+    lastUpdateTimeLbl = new LabelControl("上次检查更新", lastUpdateTime, "The last time openpilot successfully checked for an update. The updater only runs while the car is off.");
     layout()->addWidget(lastUpdateTimeLbl);
     layout()->addWidget(horizontal_line());
 
-    updateButton = new ButtonControl("Check for Update", "CHECK", "", [=]() {
+    updateButton = new ButtonControl("检查更新", "检查", "", [=]() {
       Params params = Params();
       if (params.getBool("IsOffroad")) {
         fs_watch->addPath(QString::fromStdString(params.getParamsPath()) + "/d/LastUpdateTime");
@@ -468,7 +468,7 @@ void SoftwarePanel::updateLabels() {
   } else {
     versionLbl->setText(version);
     lastUpdateTimeLbl->setText(lastUpdateTime);
-    updateButton->setText("CHECK");
+    updateButton->setText("检查更新");
     updateButton->setEnabled(true);
   }
 
@@ -555,9 +555,9 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
   QObject::connect(device, &DevicePanel::showDriverView, this, &SettingsWindow::showDriverView);
 
   QPair<QString, QWidget *> panels[] = {
-    {"设备设置", device},
-    {"网络设置", network_panel(this)},
-    {"定制化", new TogglesPanel(this)},
+    {"设备", device},
+    {"网络", network_panel(this)},
+    {"功能", new TogglesPanel(this)},
     {"软件", new SoftwarePanel(this)},
   };
 
