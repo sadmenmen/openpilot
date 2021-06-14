@@ -33,7 +33,7 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "当车辆在车速超过50公里/小时（31英里/小时）且未启用转向灯的情况下驶过检测到的车道线时，报警.",
                                   "../assets/offroad/icon_warning.png",
                                   this));
-                                    toggles.append(new ParamControl("GasPressNoquit",
+  toggles.append(new ParamControl("GasPressNoquit",
                                   "踩油门不退出OP",
                                   "踩油门op也能继续控制转向",
                                   "../assets/offroad/icon_gas.png",
