@@ -26,10 +26,10 @@ inline QString timeAgo(const QDateTime &date) {
 
   QString s;
   if (diff < 60) {
-    s = "now";
+    s = "刚刚";
   } else if (diff < 60 * 60) {
     int minutes = diff / 60;
-    s = QString("%1 minute%2 ago").arg(minutes).arg(minutes > 1 ? "s" : "");
+    s = QString("%1 分钟%2 以前").arg(minutes).arg(minutes > 1 ? "s" : "");
   } else if (diff < 60 * 60 * 24) {
     int hours = diff / (60 * 60);
     s = QString("%1 hour%2 ago").arg(hours).arg(hours > 1 ? "s" : "");
