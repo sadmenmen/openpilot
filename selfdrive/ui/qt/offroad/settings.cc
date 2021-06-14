@@ -82,8 +82,8 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                                 this);
   toggles.append(record_toggle);
   toggles.append(new ParamControl("EndToEndToggle",
-                                   "\U0001f96c Disable use of lanelines (Alpha) \U0001f96c",
-                                   "In this mode openpilot will ignore lanelines and just drive how it thinks a human would.",
+                                   "\U0001f96c 禁用车道线（Alpha） \U0001f96c",
+                                   "在这种模式下，openpilot将忽略车道线，只按它认为的人类方式驾驶.",
                                    "../assets/offroad/icon_road.png",
                                    this));
 
