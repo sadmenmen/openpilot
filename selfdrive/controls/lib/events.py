@@ -197,7 +197,7 @@ def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, met
   speed = int(MIN_SPEED_FILTER * (CV.MS_TO_KPH if metric else CV.MS_TO_MPH))
   unit = "km/h" if metric else "mph"
   return Alert(
-    "Calibration in Progress: %d%%" % sm['liveCalibration'].calPerc,
+    "正在自动校准: %d%%" % sm['liveCalibration'].calPerc,
     "Drive Above %d %s" % (speed, unit),
     AlertStatus.normal, AlertSize.mid,
     Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2)
@@ -246,16 +246,16 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.startup: {
     ET.PERMANENT: Alert(
-      "Be ready to take over at any time",
-      "Always keep hands on wheel and eyes on road",
+      "请注意安全驾驶",
+      "保持手扶方向盘",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
 
   EventName.startupMaster: {
     ET.PERMANENT: Alert(
-      "WARNING: This branch is not tested",
-      "Always keep hands on wheel and eyes on road",
+      "请注意安全驾驶",
+      "保持手扶方向盘",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
