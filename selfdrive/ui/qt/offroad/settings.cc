@@ -54,17 +54,17 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
                                   "../assets/offroad/icon_Turn_Lamp.png",
                                   this));
   toggles.append(new ParamControl("IsRHD",
-                                  "Enable Right-Hand Drive",
+                                  "启用右驾模式",
                                   "Allow openpilot to obey left-hand traffic conventions and perform driver monitoring on right driver seat.",
                                   "../assets/offroad/icon_openpilot_mirrored.png",
                                   this));
   toggles.append(new ParamControl("IsMetric",
-                                  "Use Metric System",
+                                  "使用公制单位",
                                   "Display speed in km/h instead of mp/h.",
                                   "../assets/offroad/icon_metric.png",
                                   this));
   toggles.append(new ParamControl("CommunityFeaturesToggle",
-                                  "Enable Community Features",
+                                  "启用社区功能,
                                   "Use features from the open source community that are not maintained or supported by comma.ai and have not been confirmed to meet the standard safety model. These features include community supported cars and community supported hardware. Be extra cautious when using these features",
                                   "../assets/offroad/icon_shell.png",
                                   this));

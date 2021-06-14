@@ -63,7 +63,7 @@ void Sidebar::updateState(const UIState &s) {
     setProperty("connectStatus", warning_color);
   } else {
     bool online = nanos_since_boot() - last_ping < 80e9;
-    setProperty("connectStr",  online ? "ONLINE" : "ERROR");
+    setProperty("connectStr",  online ? "已连接" : "ERROR");
     setProperty("connectStatus", online ? good_color : danger_color);
   }
 
@@ -77,11 +77,11 @@ void Sidebar::updateState(const UIState &s) {
   setProperty("tempStatus", tempStatus);
   setProperty("tempVal", (int)deviceState.getAmbientTempC());
 
-  QString pandaStr = "VEHICLE\nONLINE";
+  QString pandaStr = "车辆\n已连接";
   QColor pandaStatus = good_color;
   if (s.scene.pandaType == cereal::PandaState::PandaType::UNKNOWN) {
     pandaStatus = danger_color;
-    pandaStr = "NO\nPANDA";
+    pandaStr = "未连接\nPANDA";
   } else if (Hardware::TICI() && s.scene.started) {
     pandaStr = QString("SATS %1\nACC %2").arg(s.scene.satelliteCount).arg(fmin(10, s.scene.gpsAccuracy), 0, 'f', 2);
     pandaStatus = sm["liveLocationKalman"].getLiveLocationKalman().getGpsOK() ? good_color : warning_color;
@@ -116,7 +116,7 @@ void Sidebar::paintEvent(QPaintEvent *event) {
   p.drawText(r, Qt::AlignCenter, net_type);
 
   // metrics
-  drawMetric(p, "TEMP", QString("%1°C").arg(temp_val), temp_status, 338);
+  drawMetric(p, "温度", QString("%1°C").arg(temp_val), temp_status, 338);
   drawMetric(p, panda_str, "", panda_status, 518);
   drawMetric(p, "CONNECT\n" + connect_str, "", connect_status, 676);
 }
