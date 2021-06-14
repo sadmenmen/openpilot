@@ -181,7 +181,7 @@ void OffroadHome::refresh() {
   }
 
   if (alerts_widget->updateAvailable) {
-    alert_notification->setText("有更新");
+    alert_notification->setText("UPDATE");
   } else {
     int alerts = alerts_widget->alertCount;
     alert_notification->setText(QString::number(alerts) + " ALERT" + (alerts == 1 ? "" : "S"));

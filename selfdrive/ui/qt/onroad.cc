@@ -92,11 +92,11 @@ void OnroadAlerts::updateState(const UIState &s) {
       // Handle controls timeout
       if (sm.rcv_frame("controlsState") < s.scene.started_frame) {
         // car is started, but controlsState hasn't been seen at all
-        updateAlert("openpilot 不可用", "等待控制响应", 0,
+        updateAlert("openpilot Unavailable", "Waiting for controls to start", 0,
                     "controlsWaiting", cereal::ControlsState::AlertSize::MID, AudibleAlert::NONE);
       } else if ((sm.frame - sm.rcv_frame("controlsState")) > 5 * UI_FREQ) {
         // car is started, but controls is lagging or died
-        updateAlert("请立即接管", "控制无响应", 0,
+        updateAlert("TAKE CONTROL IMMEDIATELY", "Controls Unresponsive", 0,
                     "controlsUnresponsive", cereal::ControlsState::AlertSize::FULL, AudibleAlert::CHIME_WARNING_REPEAT);
 
         // TODO: clean this up once Qt handles the border
