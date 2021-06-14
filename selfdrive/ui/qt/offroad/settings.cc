@@ -266,7 +266,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   device_layout->addWidget(horizontal_line());
 
   QString serial = QString::fromStdString(params.get("HardwareSerial", false));
-  device_layout->addWidget(new LabelControl("Serial", serial));
+  device_layout->addWidget(new LabelControl("序列号", serial));
 
   // offroad-only buttons
   QList<ButtonControl*> offroad_btns;
@@ -555,10 +555,10 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QFrame(parent) {
   QObject::connect(device, &DevicePanel::showDriverView, this, &SettingsWindow::showDriverView);
 
   QPair<QString, QWidget *> panels[] = {
-    {"Device", device},
-    {"Network", network_panel(this)},
-    {"Toggles", new TogglesPanel(this)},
-    {"Software", new SoftwarePanel(this)},
+    {"设备设置", device},
+    {"网络设置", network_panel(this)},
+    {"定制化", new TogglesPanel(this)},
+    {"软件", new SoftwarePanel(this)},
   };
 
   sidebar_layout->addSpacing(45);
