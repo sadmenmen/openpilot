@@ -445,7 +445,7 @@ void SoftwarePanel::updateLabels() {
   }
 
   if (labels.size() < dev_params.size()) {
-    versionLbl = new LabelControl("Version", version, QString::fromStdString(params.get("ReleaseNotes")).trimmed());
+    versionLbl = new LabelControl("版本", version, QString::fromStdString(params.get("ReleaseNotes")).trimmed());
     layout()->addWidget(versionLbl);
     layout()->addWidget(horizontal_line());
 
