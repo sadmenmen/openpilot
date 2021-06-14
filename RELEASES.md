@@ -1,6 +1,8 @@
-Version 0.8.6 (2021-XX-XX)
+Version 0.8.6 (2021-6-14)
 ========================
+ * 更多界面汉化
 
+ 
 Version 0.8.5 (2021-06-11)
 ========================
  * NEOS update: improved reliability and stability with better voltage regulator configuration

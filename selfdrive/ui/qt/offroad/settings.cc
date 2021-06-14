@@ -272,10 +272,10 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QList<ButtonControl*> offroad_btns;
 
   offroad_btns.append(new ButtonControl("前置摄像头", "预览画面",
-                                        "Preview the driver facing camera to help optimize device mounting position for best driver monitoring experience. (vehicle must be off)",
+                                        "预览面向驾驶员的摄像头，以帮助优化设备安装位置，获得最佳的驾驶员监控体验(车辆必须关闭）",
                                         [=]() { emit showDriverView(); }, "", this));
 
-  QString resetCalibDesc = "openpilot requires the device to be mounted within 4° left or right and within 5° up or down. openpilot is continuously calibrating, resetting is rarely required.";
+  QString resetCalibDesc = "openpilot需要设备安装角度控制在左右 4° 且上下5°以内. openpilot会持续动态校准.";
   ButtonControl *resetCalibBtn = new ButtonControl("重置校准", "开始重置", resetCalibDesc, [=]() {
     if (ConfirmationDialog::confirm("确定重置校准?", this)) {
       Params().remove("CalibrationParams");
@@ -292,9 +292,9 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
         if (calib.getCalStatus() != 0) {
           double pitch = calib.getRpyCalib()[1] * (180 / M_PI);
           double yaw = calib.getRpyCalib()[2] * (180 / M_PI);
-          desc += QString(" Your device is pointed %1° %2 and %3° %4.")
-                                .arg(QString::number(std::abs(pitch), 'g', 1), pitch > 0 ? "up" : "down",
-                                     QString::number(std::abs(yaw), 'g', 1), yaw > 0 ? "right" : "left");
+          desc += QString(" 你的设备目前 %1° %2 and %3° %4.")
+                                .arg(QString::number(std::abs(pitch), 'g', 1), pitch > 0 ? "上" : "下",
+                                     QString::number(std::abs(yaw), 'g', 1), yaw > 0 ? "右" : "左");
         }
       } catch (kj::Exception) {
         qInfo() << "invalid CalibrationParams";
@@ -304,9 +304,9 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   });
   offroad_btns.append(resetCalibBtn);
 
-  offroad_btns.append(new ButtonControl("复习训练课程", "开始复习",
-                                        "Review the rules, features, and limitations of openpilot", [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to review the training guide?", this)) {
+  offroad_btns.append(new ButtonControl("训练课程", "学习",
+                                        "回顾openpilot的规则、特性和限制", [=]() {
+    if (ConfirmationDialog::confirm("现在开始学习?", this)) {
       Params().remove("CompletedTrainingVersion");
       emit reviewTrainingGuide();
     }
@@ -314,7 +314,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
 
   QString brand = params.getBool("Passive") ? "dashcam" : "openpilot";
   offroad_btns.append(new ButtonControl("卸载 " + brand, "卸载", "", [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to uninstall?", this)) {
+    if (ConfirmationDialog::confirm("确定卸载?", this)) {
       Params().putBool("DoUninstall", true);
     }
   }, "", this));
@@ -385,7 +385,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   poweroff_btn->setStyleSheet("background-color: #E22C2C;");
   power_layout->addWidget(poweroff_btn);
   QObject::connect(poweroff_btn, &QPushButton::released, [=]() {
-    if (ConfirmationDialog::confirm("Are you sure you want to power off?", this)) {
+    if (ConfirmationDialog::confirm("你确定要关机吗?", this)) {
       Hardware::poweroff();
     }
   });
@@ -429,8 +429,8 @@ void SoftwarePanel::updateLabels() {
   Params params = Params();
   std::string brand = params.getBool("Passive") ? "dashcam" : "openpilot";
   QList<QPair<QString, std::string>> dev_params = {
-    {"分支", params.get("GitBranch")},
-    {"Git Commit", params.get("GitCommit").substr(0, 10)},
+    {"分支号", params.get("GitBranch")},
+    {"Git版本", params.get("GitCommit").substr(0, 10)},
     {"Panda版本", params.get("PandaFirmwareHex")},
     {"OS版本", Hardware::get_os_version()},
   };
@@ -445,11 +445,11 @@ void SoftwarePanel::updateLabels() {
   }
 
   if (labels.size() < dev_params.size()) {
-    versionLbl = new LabelControl("Version", version, QString::fromStdString(params.get("ReleaseNotes")).trimmed());
+    versionLbl = new LabelControl("openpilot版本", version, QString::fromStdString(params.get("ReleaseNotes")).trimmed());
     layout()->addWidget(versionLbl);
     layout()->addWidget(horizontal_line());
 
-    lastUpdateTimeLbl = new LabelControl("上次检查更新", lastUpdateTime, "The last time openpilot successfully checked for an update. The updater only runs while the car is off.");
+    lastUpdateTimeLbl = new LabelControl("上次检查更新时间", lastUpdateTime, "The last time openpilot successfully checked for an update. The updater only runs while the car is off.");
     layout()->addWidget(lastUpdateTimeLbl);
     layout()->addWidget(horizontal_line());
 
@@ -493,11 +493,11 @@ QWidget * network_panel(QWidget * parent) {
   layout->setSpacing(30);
 
   // wifi + tethering buttons
-  layout->addWidget(new ButtonControl("WiFi Settings", "OPEN", "",
+  layout->addWidget(new ButtonControl("WiFi设置", "打开", "",
                                       [=]() { HardwareEon::launch_wifi(); }));
   layout->addWidget(horizontal_line());
 
-  layout->addWidget(new ButtonControl("Tethering Settings", "OPEN", "",
+  layout->addWidget(new ButtonControl("热点设置", "打开", "",
                                       [=]() { HardwareEon::launch_tethering(); }));
   layout->addWidget(horizontal_line());
 

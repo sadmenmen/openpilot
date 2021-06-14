@@ -198,7 +198,7 @@ def calibration_incomplete_alert(CP: car.CarParams, sm: messaging.SubMaster, met
   unit = "km/h" if metric else "mph"
   return Alert(
     "正在自动校准: %d%%" % sm['liveCalibration'].calPerc,
-    "Drive Above %d %s" % (speed, unit),
+    "请保持车速超过 %d %s" % (speed, unit),
     AlertStatus.normal, AlertSize.mid,
     Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2)
 
@@ -247,7 +247,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.startup: {
     ET.PERMANENT: Alert(
       "请注意安全驾驶",
-      "保持手扶方向盘",
+      "手扶方向盘，注意路况",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -255,7 +255,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.startupMaster: {
     ET.PERMANENT: Alert(
       "请注意安全驾驶",
-      "保持手扶方向盘",
+      "手扶方向盘，注意路况",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -264,7 +264,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.startupNoControl: {
     ET.PERMANENT: Alert(
       "Dashcam mode",
-      "Always keep hands on wheel and eyes on road",
+      "手扶方向盘，注意路况",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -272,8 +272,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   # Car is not recognized
   EventName.startupNoCar: {
     ET.PERMANENT: Alert(
-      "Dashcam mode for unsupported car",
-      "Always keep hands on wheel and eyes on road",
+      "不支持的车型",
+      "手扶方向盘，注意路况",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -292,8 +292,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.startupNoFw: {
     ET.PERMANENT: Alert(
-      "Car Unrecognized",
-      "Check All Connections",
+      "车型未识别",
+      "请检查连接",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOWER, VisualAlert.none, AudibleAlert.none, 0., 0., 15.),
   },
@@ -332,7 +332,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.carUnrecognized: {
     ET.PERMANENT: Alert(
       "Dashcam Mode",
-      "Car Unrecognized",
+      "车型未识别",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2),
   },
@@ -365,8 +365,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.ldw: {
     ET.PERMANENT: Alert(
-      "TAKE CONTROL",
-      "Lane Departure Detected",
+      "请接管",
+      "车道偏离",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.ldw, AudibleAlert.chimePrompt, 1., 2., 3.),
   },
@@ -401,7 +401,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.steerTempUnavailableUserOverride: {
     ET.WARNING: Alert(
-      "Steering Temporarily Unavailable",
+      "转向控制暂不可用",
       "",
       AlertStatus.userPrompt, AlertSize.small,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
@@ -485,39 +485,39 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.preLaneChangeLeft: {
     ET.WARNING: Alert(
-      "Steer Left to Start Lane Change",
-      "Monitor Other Vehicles",
+      "往左拨动方向盘开始自动变道",
+      "注意其他车辆",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
   },
 
   EventName.preLaneChangeRight: {
     ET.WARNING: Alert(
-      "Steer Right to Start Lane Change",
-      "Monitor Other Vehicles",
+      "往右拨动方向盘开始自动变道",
+      "注意其他车辆",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1, alert_rate=0.75),
   },
 
   EventName.laneChangeBlocked: {
     ET.WARNING: Alert(
-      "Car Detected in Blindspot",
-      "Monitor Other Vehicles",
+      "车辆盲区监测到其他车辆",
+      "注意安全",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, .1, .1, .1),
   },
 
   EventName.laneChange: {
     ET.WARNING: Alert(
-      "Changing Lane",
-      "Monitor Other Vehicles",
+      "自动变道中ing",
+      "注意其他车辆",
       AlertStatus.normal, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.none, .0, .1, .1),
   },
 
   EventName.steerSaturated: {
     ET.WARNING: Alert(
-      "TAKE CONTROL",
+      "请接管",
       "Turn Exceeds Steering Limit",
       AlertStatus.userPrompt, AlertSize.mid,
       Priority.LOW, VisualAlert.steerRequired, AudibleAlert.chimePrompt, 1., 1., 1.),
@@ -642,8 +642,8 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   },
 
   EventName.wrongGear: {
-    ET.SOFT_DISABLE: SoftDisableAlert("Gear not D"),
-    ET.NO_ENTRY: NoEntryAlert("Gear not D"),
+    ET.SOFT_DISABLE: SoftDisableAlert("不在D档"),
+    ET.NO_ENTRY: NoEntryAlert("不在D档"),
   },
 
   # This alert is thrown when the calibration angles are outside of the acceptable range.
@@ -652,15 +652,15 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   # and attaching while making sure the device is pointed straight forward and is level.
   # See https://comma.ai/setup for more information
   EventName.calibrationInvalid: {
-    ET.PERMANENT: NormalPermanentAlert("Calibration Invalid", "Remount Device and Recalibrate"),
-    ET.SOFT_DISABLE: SoftDisableAlert("Calibration Invalid: Remount Device & Recalibrate"),
-    ET.NO_ENTRY: NoEntryAlert("Calibration Invalid: Remount Device & Recalibrate"),
+    ET.PERMANENT: NormalPermanentAlert("校准失败", "调整安装然后重新校准"),
+    ET.SOFT_DISABLE: SoftDisableAlert("校准失败", "调整安装然后重新校准"),
+    ET.NO_ENTRY: NoEntryAlert("校准失败", "调整安装然后重新校准"),
   },
 
   EventName.calibrationIncomplete: {
     ET.PERMANENT: calibration_incomplete_alert,
-    ET.SOFT_DISABLE: SoftDisableAlert("Calibration in Progress"),
-    ET.NO_ENTRY: NoEntryAlert("Calibration in Progress"),
+    ET.SOFT_DISABLE: SoftDisableAlert("校准中……"),
+    ET.NO_ENTRY: NoEntryAlert("校准中……"),
   },
 
   EventName.doorOpen: {
@@ -805,12 +805,12 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
 
   EventName.reverseGear: {
     ET.PERMANENT: Alert(
-      "Reverse\nGear",
+      "正在倒车",
       "",
       AlertStatus.normal, AlertSize.full,
       Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=0.5),
-    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Reverse Gear"),
-    ET.NO_ENTRY: NoEntryAlert("Reverse Gear"),
+    ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("正在倒车"),
+    ET.NO_ENTRY: NoEntryAlert("正在倒车"),
   },
 
   # On cars that use stock ACC the car can decide to cancel ACC for various reasons.
