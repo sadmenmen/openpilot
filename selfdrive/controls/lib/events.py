@@ -558,7 +558,11 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
   EventName.pcmDisable: {
     ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
   },
-
+  
+  EventName.reverseGear: {
+    ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimedcRepeat),
+  },
+  
   EventName.buttonCancel: {
     ET.USER_DISABLE: EngagementAlert(AudibleAlert.chimeDisengage),
   },
@@ -808,7 +812,7 @@ EVENTS: Dict[int, Dict[str, Union[Alert, Callable[[Any, messaging.SubMaster, boo
       "倒车\n注意安全",
       "",
       AlertStatus.normal, AlertSize.full,
-      Priority.LOWEST, VisualAlert.none, AudibleAlert.none, 0., 0., .2, creation_delay=0.5),
+      Priority.LOWEST, VisualAlert.none, AudibleAlert.chimedcRepeat, 0., 0., .2, creation_delay=0.5),
     ET.IMMEDIATE_DISABLE: ImmediateDisableAlert("Reverse Gear"),
     ET.NO_ENTRY: NoEntryAlert("Reverse Gear"),
   },
