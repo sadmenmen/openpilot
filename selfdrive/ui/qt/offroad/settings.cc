@@ -326,48 +326,21 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   }
 
   //choose car
-  QHBoxLayout *car_Layout=new QHBoxLayout();
-  QPushButton *mybtn=new QPushButton("车型选择");
-  QMenu *mymenu=new QMenu;
-  QAction *pAct1 = new QAction("HONDA ACCORD 2018 LX 1.5T", this);
-  connect(pAct1, &QAction::triggered, this, &ACCORD_2018_15T);
-  mymenu->addAction(pAct1);
-  QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
-  connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
-  mymenu->addAction(pAct2);
-  QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
-  connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
-  mymenu->addAction(pAct3);
-  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
-  connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
-	mymenu->addAction(pAct4);
-  QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
-  connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
-  mymenu->addAction(pAct5);
-  QAction *pAct6 = new QAction("HONDA ACCORD HYBRID 2018", this);
-  connect(pAct6, &QAction::triggered, this, &ACCORD_2018_HYBRID);
-  mymenu->addAction(pAct6);
-  QAction *pAct7 = new QAction("HONDA_CRV_2019_HYBRID", this);
-  connect(pAct7, &QAction::triggered, this, &HONDA_CRV_2019_HYBRID);
-  mymenu->addAction(pAct7);
-  QAction *pAct8 = new QAction("AUDI A3 3RD GEN", this);
-  connect(pAct8, &QAction::triggered, this, &AUDI_A3_MK3);
-  mymenu->addAction(pAct8);
-  QAction *pAct9 = new QAction("TOYOTA COROLLA HYBRID TSS2 2019", this);
-  connect(pAct9, &QAction::triggered, this, &COROLLAH_TSS2);
-  mymenu->addAction(pAct9);
-  QAction *pAct10 = new QAction("TOYOTA CAMRY 2018", this);
-  connect(pAct10, &QAction::triggered, this, &CAMRY_2018);
-  mymenu->addAction(pAct10);
-  QAction *pAct11 = new QAction("TOYOTA HIGHLANDER HYBRID 2018", this);
-  connect(pAct11, &QAction::triggered, this, &HIGHLANDERH_2018);
-  mymenu->addAction(pAct11);
-  QAction *pAct12 = new QAction("TOYOTA COROLLA TSS2 2019", this);
-  connect(pAct12, &QAction::triggered, this, &COROLLA_TSS2);
-  mymenu->addAction(pAct12);
-  mybtn->setMenu(mymenu);
-  car_Layout->addWidget(mybtn);
-  device_layout->addLayout(car_Layout);
+  //QHBoxLayout *car_Layout=new QHBoxLayout();
+  //QPushButton *mybtn=new QPushButton("车型选择");
+  //QMenu *mymenu=new QMenu;
+  //QAction *pAct1 = new QAction("HONDA ACCORD 2018 LX 1.5T", this);
+  //connect(pAct1, &QAction::triggered, this, &ACCORD_2018_15T);
+  //mymenu->addAction(pAct1);
+  //QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
+  //connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
+  //mymenu->addAction(pAct2);
+  //QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
+  //connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
+  //mymenu->addAction(pAct3);
+  //QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
+  //connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
+  //
 
   // power buttons
   QHBoxLayout *power_layout = new QHBoxLayout();
