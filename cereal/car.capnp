@@ -347,7 +347,7 @@ struct CarControl {
       chimeWarningRepeat @6;
       chimePrompt @7;
       chimeWarning2Repeat @8;
-      chimedcRepeat @9;
+      chimedcrepeat @9;
     }
   }
 
