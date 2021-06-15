@@ -1,1 +1,1 @@
-#define COMMA_VERSION "0.8.6 VW-J533"
+#define COMMA_VERSION "0.8.6 MQB"
