@@ -39,7 +39,7 @@ private:
     {AudibleAlert::CHIME_WARNING_REPEAT, {"../assets/sounds/warning_repeat.wav", true}},
     {AudibleAlert::CHIME_ERROR, {"../assets/sounds/error.wav", false}},
     {AudibleAlert::CHIME_PROMPT, {"../assets/sounds/error.wav", false}},
-    {AudibleAlert::CHIME_DCREPEAT, {"../assets/sounds/dcrepeat.wav", true}}
+    {AudibleAlert::CHIME_dcRepeat, {"../assets/sounds/chimedcRepeat.wav", true}}
   };
 
   QColor bg;
