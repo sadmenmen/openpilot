@@ -417,15 +417,19 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
   int label_fontSize=15;
   int uom_fontSize = 15;
   int bb_uom_dx =  (int)(bb_w /2 - uom_fontSize*2.5) ;
-  float d_rel = s->scene.lead_data[0].getDRel();
-  float v_rel = s->scene.lead_data[0].getVRel();
-
+  //float d_rel = s->scene.lead_data[0].getDRel();
+  //float v_rel = s->scene.lead_data[0].getVRel();
+  auto radar_state = (*s->sm)["radarState"].getRadarState();
+  auto lead_one = radar_state.getLeadOne();
+  float d_rel = lead_one.getDRel();
+  float v_rel = lead_one.getVRel();
   //add visual radar relative distance
   if (true) {
     char val_str[16];
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
-    if (s->scene.lead_data[0].getStatus()) {
+    //if (s->scene.lead_data[0].getStatus()) {
+    if (lead_one.getStatus()) {
       //show RED if less than 5 meters
       //show orange if less than 15 meters
       if((int)(d_rel) < 15) {
@@ -452,7 +456,8 @@ static void bb_ui_draw_measures_right(UIState *s, int bb_x, int bb_y, int bb_w )
     char val_str[16];
     char uom_str[6];
     NVGcolor val_color = nvgRGBA(255, 255, 255, 200);
-    if (s->scene.lead_data[0].getStatus()) {
+    //if (s->scene.lead_data[0].getStatus()) {
+    if (lead_one.getStatus()) {
       //show Orange if negative speed (approaching)
       //show Orange if negative speed faster than 5mph (approaching fast)
       if((int)(v_rel) < 0) {
