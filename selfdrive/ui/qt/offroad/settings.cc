@@ -163,14 +163,14 @@ void SKODA_KODIAQ_MK1()
     fclose(file);
 }
 
-void Civc_2016_TOURING()
+void AUDI_Q3_MK2()
 {
     FILE *file = fopen("car_model_test.txt", "w");
     if(file == NULL)
     {
         printf("open error!\n");
     }
-    char name[] = "HONDA CIVIC 2016";
+    char name[] = "AUDI Q3 2ND GEN";
     fputs(name, file);
     fclose(file);
 }
@@ -338,8 +338,8 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QAction *pAct3 = new QAction("SKODA KODIAQ 1ST GEN", this);
   connect(pAct3, &QAction::triggered, this, &SKODA_KODIAQ_MK1);
   mymenu->addAction(pAct3);
-  QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
-  connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
+  QAction *pAct4 = new QAction("AUDI Q3 2ND GEN", this);
+  connect(pAct4, &QAction::triggered, this, &AUDI_Q3_MK2);
 	mymenu->addAction(pAct4);
   QAction *pAct5 = new QAction("TOYOTA AVALON 2019", this);
   connect(pAct5, &QAction::triggered, this, &AVALON_2019_TOYOTA);
