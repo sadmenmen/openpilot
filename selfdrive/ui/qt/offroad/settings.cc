@@ -117,14 +117,14 @@ TogglesPanel::TogglesPanel(QWidget *parent) : QWidget(parent) {
   setLayout(toggles_list);
 }
 
-void ACCORD_2018_15T()
+void SKODA_OCTAVIA_MK3()
 {
 	FILE *file = fopen("car_model_test.txt", "w");
     if(file == NULL)
     {
         printf("open error!\n");
     }
-    char name[] = "HONDA ACCORD 2018";
+    char name[] = "SKODA OCTAVIA 3RD GEN";
     fputs(name, file);
     fclose(file);
 }
@@ -151,14 +151,14 @@ void ACCORD_2018_HYBRID()
     fputs(name, file);
     fclose(file);
 }
-void CAMRY_2018_HYBRID()
+void SKODA_KODIAQ_MK1()
 {
     FILE *file = fopen("car_model_test.txt", "w");
     if(file == NULL)
     {
         printf("open error!\n");
     }
-    char name[] = "TOYOTA CAMRY HYBRID 2018";
+    char name[] = "SKODA KODIAQ 1ST GEN";
     fputs(name, file);
     fclose(file);
 }
@@ -329,14 +329,14 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QHBoxLayout *car_Layout=new QHBoxLayout();
   QPushButton *mybtn=new QPushButton("车型选择");
   QMenu *mymenu=new QMenu;
-  QAction *pAct1 = new QAction("HONDA ACCORD 2018 LX 1.5T", this);
-  connect(pAct1, &QAction::triggered, this, &ACCORD_2018_15T);
+  QAction *pAct1 = new QAction("SKODA OCTAVIA 3RD GEN", this);
+  connect(pAct1, &QAction::triggered, this, &SKODA_OCTAVIA_MK3);
   mymenu->addAction(pAct1);
   QAction *pAct2 = new QAction("VOLKSWAGEN GOLF 7TH GEN", this);
   connect(pAct2, &QAction::triggered, this, &VOLKSWAGEN_GOLF_7TH);
   mymenu->addAction(pAct2);
-  QAction *pAct3 = new QAction("TOYOTA CAMRY HYBRID 2018", this);
-  connect(pAct3, &QAction::triggered, this, &CAMRY_2018_HYBRID);
+  QAction *pAct3 = new QAction("SKODA KODIAQ 1ST GEN", this);
+  connect(pAct3, &QAction::triggered, this, &SKODA_KODIAQ_MK1);
   mymenu->addAction(pAct3);
   QAction *pAct4 = new QAction("HONDA CIVIC 2016 TOURING", this);
   connect(pAct4, &QAction::triggered, this, &Civc_2016_TOURING);
@@ -458,7 +458,7 @@ void SoftwarePanel::updateLabels() {
       if (params.getBool("IsOffroad")) {
         fs_watch->addPath(QString::fromStdString(params.getParamsPath()) + "/d/LastUpdateTime");
         fs_watch->addPath(QString::fromStdString(params.getParamsPath()) + "/d/UpdateFailedCount");
-        updateButton->setText("CHECKING");
+        updateButton->setText("正在检查，请稍候");
         updateButton->setEnabled(false);
       }
       std::system("pkill -1 -f selfdrive.updated");
