@@ -1,7 +1,7 @@
 from cereal import car
 from selfdrive.car import apply_std_steer_torque_limits
 from selfdrive.car.volkswagen import volkswagencan
-from selfdrive.car.volkswagen.values import DBC, CANBUS, MQB_LDW_MESSAGES, BUTTON_STATES, CarControllerParams
+from selfdrive.car.volkswagen.values import DBC, CANBUS, NetworkLocation, MQB_LDW_MESSAGES, BUTTON_STATES, CarControllerParams
 from opendbc.can.packer import CANPacker
 from common.params import Params
 params = Params()
@@ -22,6 +22,16 @@ class CarController():
     # dp
     self.last_blinker_on = False
     self.blinker_end_frame = 0.
+
+
+
+
+
+    if CP.networkLocation == NetworkLocation.fwdCamera:
+      self.ext_can = CANBUS.pt
+    else:
+      self.ext_can = CANBUS.cam
+
     self.steer_rate_limited = False
 
   def update(self, enabled, CS, frame, actuators, visual_alert, left_lane_visible, right_lane_visible, left_lane_depart, right_lane_depart):
@@ -47,7 +57,7 @@ class CarController():
 
       # FAULT AVOIDANCE: HCA must not be enabled at standstill. Also stop
       # commanding HCA if there's a fault, so the steering rack recovers.
-      if enabled and not (CS.out.standstill or CS.steeringFault):
+      if enabled and not (CS.out.standstill or CS.out.steerError or CS.out.steerWarning):
 
         # FAULT AVOIDANCE: Requested HCA torque must not exceed 3.0 Nm. This
         # is inherently handled by scaling to STEER_MAX. The rack doesn't seem
@@ -189,7 +199,7 @@ class CarController():
         if self.graMsgSentCount == 0:
           self.graMsgStartFramePrev = frame
         idx = (CS.graMsgBusCounter + 1) % 16
-        can_sends.append(volkswagencan.create_mqb_acc_buttons_control(self.packer_pt, CANBUS.pt, self.graButtonStatesToSend, CS, idx))
+        can_sends.append(volkswagencan.create_mqb_acc_buttons_control(self.packer_pt, self.ext_can, self.graButtonStatesToSend, CS, idx))
         self.graMsgSentCount += 1
         if self.graMsgSentCount >= P.GRA_VBP_COUNT:
           self.graButtonStatesToSend = None
