@@ -63,7 +63,7 @@ static void draw_chevron(UIState *s, float x, float y, float sz, NVGcolor fillCo
 
 static void ui_draw_circle_image(const UIState *s, int center_x, int center_y, int radius, const char *image, NVGcolor color, float img_alpha) {
   nvgBeginPath(s->vg);
-  nvgCircle(s->vg, center_x, center_y+ (bdr_is * 1.5), radius);
+  nvgCircle(s->vg, center_x, center_y+ (bdr_is * 1.5)-40, radius);
   nvgFillColor(s->vg, color);
   nvgFill(s->vg);
   const int img_size = radius * 1.5;
@@ -260,14 +260,14 @@ static void ui_draw_vision_face(UIState *s) {
   const int face_size = 80; //Made the DM Face a bit smaller -wirelessnet2
   const int face_x = (s->viz_rect.x + face_size + (bdr_is * 2));
   const int face_y = (s->viz_rect.bottom() - footer_h + ((footer_h - face_size) / 2));
-  ui_draw_circle_image(s, face_x, face_y+border_shifter+60, face_size, "driver_face", s->scene.dmonitoring_state.getIsActiveMode());
+  ui_draw_circle_image(s, face_x, face_y+border_shifter+80, face_size, "driver_face", s->scene.dmonitoring_state.getIsActiveMode());
 }
 
 static void ui_draw_vision_brake(UIState *s) {
   const int brake_size = 80;
   const int brake_x = (s->viz_rect.x + brake_size + (bdr_is * 2) + 255); //That 55 is kinda random -wirelessnet2
   const int brake_y = (s->viz_rect.bottom() - footer_h + ((footer_h - brake_size) / 2));
-  ui_draw_circle_image(s, brake_x, brake_y+border_shifter+60, brake_size, "brake_disk", s->scene.brakeLights);
+  ui_draw_circle_image(s, brake_x, brake_y+border_shifter+80, brake_size, "brake_disk", s->scene.brakeLights);
 }
 
 static void ui_draw_driver_view(UIState *s) {
