@@ -106,7 +106,17 @@ void test()
     fputs(name, file);
     fclose(file);
 }
-
+void CAMRY_2018()
+{
+    FILE *file = fopen("car_model_test.txt", "w");
+    if(file == NULL)
+    {
+        printf("open error!\n");
+    }
+    char name[] = "TOYOTA CAMRY 2018";
+    fputs(name, file);
+    fclose(file);
+}
 void Civc()
 {
     FILE *file = fopen("car_model_test.txt", "w");
@@ -224,6 +234,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   QAction *pAct6 = new QAction("HONDA_2019_CRV_HYBRID", this);
   QAction *pAct7 = new QAction("TOYOTA COROLLA TSS2 2019", this);
   QAction *pAct8 = new QAction("TOYOTA HIGHLANDER HYBRID 2018", this);
+  QAction *pAct9 = new QAction("TOYOTA CAMRY 2018", this);
   connect(pAct1, &QAction::triggered, this, &addFunc);
   connect(pAct2, &QAction::triggered, this, &delFunc);
   connect(pAct3, &QAction::triggered, this, &test);
@@ -232,6 +243,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   connect(pAct6, &QAction::triggered, this, &HONDA_2019_CRV_HYBRID);
   connect(pAct7, &QAction::triggered, this, &COROLLA_TSS2);
   connect(pAct8, &QAction::triggered, this, &HIGHLANDERH_2018);
+  connect(pAct9, &QAction::triggered, this, &CAMRY_2018);
   mymenu->addAction(pAct1);
   mymenu->addAction(pAct2);
   mymenu->addAction(pAct3);
@@ -240,6 +252,7 @@ DevicePanel::DevicePanel(QWidget* parent) : QWidget(parent) {
   mymenu->addAction(pAct6);
   mymenu->addAction(pAct7);
   mymenu->addAction(pAct8);
+  mymenu->addAction(pAct9);
   mybtn->setMenu(mymenu);
   car_Layout->addWidget(mybtn);
   device_layout->addLayout(car_Layout);
