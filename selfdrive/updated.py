@@ -39,7 +39,6 @@ from common.params import Params
 from selfdrive.hardware import EON, TICI, HARDWARE
 from selfdrive.swaglog import cloudlog
 from selfdrive.controls.lib.alertmanager import set_offroad_alert
-from selfdrive.hardware.tici.agnos import flash_agnos_update
 
 LOCK_FILE = os.getenv("UPDATER_LOCK_FILE", "/tmp/safe_staging_overlay.lock")
 STAGING_ROOT = os.getenv("UPDATER_STAGING_ROOT", "/data/safe_staging")
@@ -93,8 +92,8 @@ def set_consistent_flag(consistent: bool) -> None:
   consistent_file = Path(os.path.join(FINALIZED, ".overlay_consistent"))
   if consistent:
     consistent_file.touch()
-  elif not consistent and consistent_file.exists():
-    consistent_file.unlink()
+  elif not consistent:
+    consistent_file.unlink(missing_ok=True)
   os.sync()
 
 
@@ -119,7 +118,7 @@ def set_params(new_version: bool, failed_count: int, exception: Optional[str]) -
       params.put("ReleaseNotes", r + b"\n")
     except Exception:
       params.put("ReleaseNotes", "")
-    params.put("UpdateAvailable", "1")
+    params.put_bool("UpdateAvailable", True)
 
 
 def setup_git_options(cwd: str) -> None:
@@ -165,9 +164,11 @@ def init_overlay() -> None:
   cloudlog.info("preparing new safe staging area")
 
   params = Params()
-  params.put("UpdateAvailable", "0")
+  params.put_bool("UpdateAvailable", False)
   set_consistent_flag(False)
   dismount_overlay()
+  if TICI:
+    run(["sudo", "rm", "-rf", STAGING_ROOT])
   if os.path.isdir(STAGING_ROOT):
     shutil.rmtree(STAGING_ROOT)
 
@@ -220,6 +221,8 @@ def finalize_update() -> None:
 
 
 def handle_agnos_update(wait_helper):
+  from selfdrive.hardware.tici.agnos import flash_agnos_update, get_target_slot_number
+
   cur_version = HARDWARE.get_os_version()
   updated_version = run(["bash", "-c", r"unset AGNOS_VERSION && source launch_env.sh && \
                           echo -n $AGNOS_VERSION"], OVERLAY_MERGED).strip()
@@ -235,7 +238,8 @@ def handle_agnos_update(wait_helper):
   set_offroad_alert("Offroad_NeosUpdate", True)
 
   manifest_path = os.path.join(OVERLAY_MERGED, "selfdrive/hardware/tici/agnos.json")
-  flash_agnos_update(manifest_path, cloudlog)
+  target_slot_number = get_target_slot_number()
+  flash_agnos_update(manifest_path, target_slot_number, cloudlog)
   set_offroad_alert("Offroad_NeosUpdate", False)
 
 
@@ -332,7 +336,7 @@ def fetch_update(wait_helper: WaitTimeHelper) -> bool:
 def main():
   params = Params()
 
-  if params.get("DisableUpdates") == b"1":
+  if params.get_bool("DisableUpdates"):
     raise RuntimeError("updates are disabled by the DisableUpdates param")
 
   if EON and os.geteuid() != 0:
@@ -354,8 +358,7 @@ def main():
   wait_helper.sleep(30)
 
   overlay_init = Path(os.path.join(BASEDIR, ".overlay_init"))
-  if overlay_init.exists():
-    overlay_init.unlink()
+  overlay_init.unlink(missing_ok=True)
 
   first_run = True
   last_fetch_time = 0
@@ -370,7 +373,7 @@ def main():
 
     # Don't run updater while onroad or if the time's wrong
     time_wrong = datetime.datetime.utcnow().year < 2019
-    is_onroad = params.get("IsOffroad") != b"1"
+    is_onroad = not params.get_bool("IsOffroad")
     if is_onroad or time_wrong:
       wait_helper.sleep(30)
       cloudlog.info("not running updater, not offroad")
@@ -404,9 +407,11 @@ def main():
         returncode=e.returncode
       )
       exception = f"command failed: {e.cmd}\n{e.output}"
+      overlay_init.unlink(missing_ok=True)
     except Exception as e:
       cloudlog.exception("uncaught updated exception, shouldn't happen")
       exception = str(e)
+      overlay_init.unlink(missing_ok=True)
 
     set_params(new_version, update_failed_count, exception)
     wait_helper.sleep(60)

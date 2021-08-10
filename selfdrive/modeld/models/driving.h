@@ -5,15 +5,14 @@
 #define DESIRE
 #define TRAFFIC_CONVENTION
 
-#include "common/mat.h"
-#include "common/util.h"
-#include "common/modeldata.h"
-
-#include "commonmodel.h"
-#include "runners/run.h"
-
 #include <memory>
-#include "messaging.hpp"
+
+#include "cereal/messaging/messaging.h"
+#include "selfdrive/common/mat.h"
+#include "selfdrive/common/modeldata.h"
+#include "selfdrive/common/util.h"
+#include "selfdrive/modeld/models/commonmodel.h"
+#include "selfdrive/modeld/runners/run.h"
 
 constexpr int DESIRE_LEN = 8;
 constexpr int TRAFFIC_CONVENTION_LEN = 2;
@@ -33,11 +32,9 @@ struct ModelDataRaw {
 };
 
 typedef struct ModelState {
-  ModelFrame frame;
+  ModelFrame *frame;
   std::vector<float> output;
-  std::unique_ptr<float[]> input_frames;
   std::unique_ptr<RunModel> m;
-  cl_command_queue q;
 #ifdef DESIRE
   float prev_desire[DESIRE_LEN] = {};
   float pulse_desire[DESIRE_LEN] = {};

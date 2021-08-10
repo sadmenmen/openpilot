@@ -1,4 +1,4 @@
-Import('env', 'arch', 'SHARED', 'QCOM_REPLAY')
+Import('env', 'arch', 'SHARED')
 
 if SHARED:
   fxn = env.SharedLibrary
@@ -28,8 +28,13 @@ if arch == "aarch64":
     'touch.c',
   ]
   _gpu_libs = ['gui', 'adreno_utils']
+elif arch == "larch64":
+  _gpu_libs = ["GLESv2"]
 else:
   _gpu_libs = ["GL"]
 
 _gpucommon = fxn('gpucommon', files, LIBS=_gpu_libs)
 Export('_common', '_gpucommon', '_gpu_libs')
+
+if GetOption('test'):
+  env.Program('tests/test_util', ['tests/test_util.cc'], LIBS=[_common])

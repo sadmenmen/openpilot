@@ -51,6 +51,10 @@ class HardwareBase:
     pass
 
   @abstractmethod
+  def get_network_info(self):
+    pass
+
+  @abstractmethod
   def get_network_type(self):
     pass
 
@@ -104,4 +108,24 @@ class HardwareBase:
 
   @abstractmethod
   def set_screen_brightness(self, percentage):
+    pass
+
+  @abstractmethod
+  def set_power_save(self, powersave_enabled):
+    pass
+
+  @abstractmethod
+  def get_gpu_usage_percent(self):
+    pass
+
+  @abstractmethod
+  def get_modem_version(self):
+    pass
+
+  @abstractmethod
+  def initialize_hardware(self):
+    pass
+
+  @abstractmethod
+  def get_networks(self):
     pass
