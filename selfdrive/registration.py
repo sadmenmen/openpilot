@@ -80,12 +80,7 @@ def register(show_spinner=False):
         import requests, json
         while True:
             try:
-                hostURL = "http://47.117.4.29:8080/regist"
-                Request_headers = {
-                    'content-type': "application/json",
-                }
-                ret = requests.post(hostURL, headers=Request_headers, data=json.dumps(serial))
-                dongle_id = json.loads(ret.text)
+                dongle_id = '1234567887654321'
                 if dongle_id:
                     break
                 else:
